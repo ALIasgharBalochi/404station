@@ -18,9 +18,10 @@ class Employer(User):
         
         
 class Passenger(User):
-    def __init__(self,username,password):
+    def __init__(self,username,password,name,email):
         super().__init__(username,password,"passenger")
-        
+        self.name = name
+        self.email = email
         
         
 #create authentication class To prevent code duplication
