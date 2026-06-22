@@ -1,10 +1,14 @@
 class Panel:
-    def __init__(self, menu):
-        self.menu = menu
+    def __init__(self):
+        pass
         
-    def get_menu(self):
-        return self.menu
-    
+    def start(self):
+        while True:
+            print("\n Be 404 Station Khosh Omadi")
+            print("1. Admin Panel")
+            print("2. Employer")
+            print("\n Be 404 Station Khosh Omadi")
+
     
 class Start_Panel(Panel):
     def __init__(self, menu:dict ) :
