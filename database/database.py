@@ -1,3 +1,13 @@
+#changin match to map
+# keys = {
+#     "admins": "username",
+#     "passengers": "username",
+#     "employers": "username",
+#     "trains": "id",
+#     "lines": "name",
+# }
+
+
 class DataBase:
     #every array saves a instance of an class
     def __init__(self):
@@ -11,8 +21,11 @@ class DataBase:
     #create a data instance
     def create_DI(self,instance,arrayname):
         #specifying the obj with its name with a variable
-        array = getattr(self,arrayname)
-        array.append(instance)
+        if hasattr(self, arrayname):
+            array = getattr(self, arrayname)
+            array.append(instance)
+            return True
+        return False
 
     #here its return a list of info
     def read_all_data(self, arrayname):
@@ -49,15 +62,15 @@ class DataBase:
         try:
             for i in array:
                 if getattr(i,key) == pointer:
-                    updated_obj = setattr(i, attr, new_value)
-                    return updated_obj
+                    setattr(i, attr, new_value)  # output of setatter is None
+                    return i
             return False
             
 
 
 
         except AttributeError :
-            pass            
+            return False    
             
                 
 
@@ -66,7 +79,7 @@ class DataBase:
 
 
     
-    def remove_data(self, arrayname:str , attr):
+    def remove_data(self, arrayname:str , pointer):
         #here we specify that the array we looking for exsits
         if hasattr(self,arrayname):
            
@@ -80,7 +93,7 @@ class DataBase:
             # here we looking for an attr in our desired array   
             array = getattr(self,arrayname)
             for i in array:
-                if getattr(i, key) == attr:
+                if getattr(i, key) == pointer:
                     array.remove(i)
                     return True
             return False       
