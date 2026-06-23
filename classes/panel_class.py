@@ -14,7 +14,7 @@ class Panel:
 
     def start(self):
         while True:
-            print("\n Be 404 Station Khosh Omadi")
+            print("\nBe 404 Station Khosh Omadi")
             print("1. Admin Panel")
             print("2. Employer")
             print("3. Passenger")
@@ -55,7 +55,7 @@ class Panel:
             print("3. Show Employers")
             print("4. Back")
 
-            i = input("Mikhay Koja Beri?")
+            i = input("Mikhay Koja Beri? ")
 
             if i == "1":
                 self.add_employer()
@@ -70,11 +70,28 @@ class Panel:
 
     def add_employer(self):
         print("\nAdd employer")
-
         username = input("Username: ")
-        password = input("Password: ")
 
-        #Check Validation and Append to employe list
+        #use db classes to read employers list
+        old_employer = self.db.read("employers", username)
+        if old_employer:
+            print("this username already exist")
+            return
+        
+
+        password = input("Password: ")
+        first_name = input("First name: ")
+        last_name = input("Last Name: ")
+        email = input("Email: ")
+
+        employer = Employer(username, password, first_name, last_name, email)
+
+        #use authentication class to register a employer and added to the list
+        self.auth.rigester(employer)
+        self.db.create_DI(employer, "employers")
+
+        print(f"Employer {username} with {password} is created ")
+
 
     def remove_employer(self):
         username = input("Enter employer who we should remove")
