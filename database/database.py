@@ -31,6 +31,7 @@ class DataBase:
     def read_all_data(self, arrayname):
         return getattr(self,arrayname)
     
+    #poiter is the attrebiute that user desired to change
     def read(self, arrayname, pointer):
         key = "username"
         array = getattr(self, arrayname)

@@ -3,6 +3,8 @@ class User:
         self.username = username
         self.password = password 
         self.role = role 
+    def __str__(self):
+        return f"username: {self.username}\n"   
         
 class Admin_User(User):
     def __init__(self,username,password,):
@@ -15,7 +17,9 @@ class Employer(User):
         self.first_name = first_name
         self.last_name = last_name
         self.email = email
-        
+    
+    def __str__(self):
+        return super().__str__() + f"First Name: {self.first_name}\nLast Name: {self.last_name}\nEmail:{self.email}"   
         
 class Passenger(User):
     def __init__(self,username,password,name,email):
@@ -23,6 +27,8 @@ class Passenger(User):
         self.name = name
         self.email = email
         
+    def __str__(self):
+        return super().__str__() + f"Name: {self.name}\nEmail:{self.email}"   
         
 #create authentication class To prevent code duplication
 class Authentication:
