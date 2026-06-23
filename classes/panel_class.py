@@ -25,7 +25,7 @@ class Panel:
             if choice == "1":
                 self.admin_login_panel()
             elif choice == "2":
-                pass
+                self.employer_login_panel()
             elif choice == "3":
                 pass
             elif choice == "4":
