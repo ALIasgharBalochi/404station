@@ -1,13 +1,14 @@
-from UserClass import Admin_User, Employer, Passenger
+from classes.UserClass import Admin_User, Employer, Passenger, Authentication
 from database.database import DataBase
 
+
 class Panel:
-    def __init__(self, auth, db):
+    def __init__(self):
         self.auth = Authentication()
         self.db   = DataBase()
 
         #Default admin username and password
-        admin = Admin_User(|"admin", "admin")
+        admin = Admin_User("admin", "admin")
         self.auth.rigester(admin)
         self.db.create_DI(admin, "admins")
 
@@ -19,7 +20,7 @@ class Panel:
             print("3. Passenger")
             print("4. Exit")
 
-            choice = input("Mikhay Koja Beri?")
+            choice = input("Mikhay Koja Beri? ")
 
             if choice == "1":
                 self.admin_login_panel()
@@ -30,7 +31,7 @@ class Panel:
             elif choice == "4":
                 print("Shab O RoozegaR Khosh")
                 break
-            else
+            else:
                 print("Dari Eshatebah Mizani Dadash")
         
         def admin_login_panel(self):
@@ -46,26 +47,25 @@ class Panel:
                 else:
                     print("username or password is wrong")
             
-
         def admin_panel(self):
             while True:
-            print("\nPanel Modiriati")
-            print("1. Add Emplouyer")
-            print("2. Remove Employer")
-            print("3. Show Employers")
-            print("4. Back")
+                print("\nPanel Modiriati")
+                print("1. Add Emplouyer")
+                print("2. Remove Employer")
+                print("3. Show Employers")
+                print("4. Back")
 
-            i = input("Mikhay Koja Beri?")
+                i = input("Mikhay Koja Beri?")
 
-            if i == "1":
-                self.add_employer()
-            elif i == "2":
-                self.remove_employer()
-            elif i == "3":
-                self.show_employer()
-            elif i == "4":
-                return
-            else
+                if i == "1":
+                    self.add_employer()
+                elif i == "2":
+                    self.remove_employer()
+                elif i == "3":
+                    self.show_employer()
+                elif i == "4":
+                    return
+            else:
                 print("Dari Eshatebah Mizani Dadash")
 
         def add_employer(self):
@@ -82,7 +82,7 @@ class Panel:
             # chek if exist(if exist can be a method) remove from list
 
         def show_employer(self):
-            if len() == 0:
+            if len == 0:
                 print("user nout found")
                 return
             
