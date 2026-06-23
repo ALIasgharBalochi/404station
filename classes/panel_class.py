@@ -1,7 +1,16 @@
+from UserClass import Admin_User, Employer, Passenger
+from database.database import DataBase
+
 class Panel:
-    def __init__(self):
-        pass
-        
+    def __init__(self, auth, db):
+        self.auth = Authentication()
+        self.db   = DataBase()
+
+        #Default admin username and password
+        admin = Admin_User(|"admin", "admin")
+        self.auth.rigester(admin)
+        self.db.create_DI(admin, "admins")
+
     def start(self):
         while True:
             print("\n Be 404 Station Khosh Omadi")
@@ -10,15 +19,15 @@ class Panel:
             print("3. Passenger")
             print("4. Exit")
 
-            i = input("Mikhay Koja Beri?")
+            choice = input("Mikhay Koja Beri?")
 
-            if i == "1":
+            if choice == "1":
                 self.admin_login_panel()
-            elif i == "2":
+            elif choice == "2":
                 pass
-            elif i == "3":
+            elif choice == "3":
                 pass
-            elif i == "4":
+            elif choice == "4":
                 print("Shab O RoozegaR Khosh")
                 break
             else
@@ -26,18 +35,17 @@ class Panel:
         
         def admin_login_panel(self):
             while True:
-                print("\n Admin Login")
+                print("\nAdmin Login")
 
                 username = input("username: ")
                 password = input("password: ")
 
-
-                #pass auth class or db class 
-                
-                #check user and password validation
-
-            # if validate succesfully
-            self.admin_panel()
+                if self.auth.login(username, password, "admin"):
+                    print("Admin login succesfull.")
+                    self.admin_panel()
+                else:
+                    print("username or password is wrong")
+            
 
         def admin_panel(self):
             while True:
