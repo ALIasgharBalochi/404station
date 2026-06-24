@@ -288,6 +288,12 @@ class Panel:
 
         #get all lines
         lines = self.db.read_all_data("lines") 
+
+        #check we have any line or not 
+        if len(lines) < 1:
+            print("lotfan aval line ra besazid! ")
+            self.employer_panel()
+
         a = [_line.name for _line in lines]
         print(f"existed lines: ",a)
         line = input("line: ")
@@ -348,6 +354,12 @@ class Panel:
             #check if user chose change line we show ghe existed line
             if changable_attr == "line":
                 lines = self.db.read_all_data("lines") 
+
+                #check we have any line or not 
+                if len(lines) < 1:
+                    print("lotfan aval line ra besazid! ")
+                    self.employer_panel()
+
                 a = [_line.name for _line in lines]
                 print(f"existed lines: ",a)
 
@@ -365,8 +377,6 @@ class Panel:
                         a = [_line.name for _line in lines]
                         print(f"existed lines: ",a)
                         new_value = input(f"{changable_attr} be chi taghir bedam: ")
-                        print("new_value",new_value)
-                        print(new_value in a)
                         if new_value in a:
                             flag = False
                     elif choise == 'n':
