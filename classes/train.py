@@ -8,12 +8,6 @@ def get_id():
 
 class Train:
     def __init__(self,name,line,avarage_speed,quality,ticket_cost,capacity):
-        
-        if avarage_speed < 0 :
-            raise ValueError("Speed cannot be negative!")
-        if ticket_cost < 0 :
-            raise ValueError("Speed cannot be negative!")
-        
         self.id = get_id()
         self.name = name
         self.line = line
@@ -22,11 +16,5 @@ class Train:
         self.ticket_cost= ticket_cost
         self.capacity = capacity
     def __str__(self):
-        return (f"--- Train Info ---\n"
-                f"ID: {self.id}\n"
-                f"Name: {self.name}\n"
-                f"Line: {self.line}\n"
-                f"Average Speed: {self.average_speed} km/h\n"
-                f"Quality: {self.quality}\n"
-                f"Ticket Cost: ${self.ticket_cost}\n"
-                f"Capacity: {self.capacity}\n")
+        return f"id: {self.id}\nName: {self.name}\nLine: {self.line}\nAvarage_speed: {self.avarage_speed}\nQuality: {self.quality}\nticket_cost: {self.ticket_cost}\nCapacity: {self.capacity}\n"
+
