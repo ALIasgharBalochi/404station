@@ -124,7 +124,7 @@ class Panel:
 
     def employer_login_panel(self):
         while True:
-            print("\employer Login")
+            print("\nemployer Login")
 
             username = input("username: ")
             password = input("password: ")
@@ -172,6 +172,8 @@ class Panel:
                 self.start()
             else:
                 print("Dari Eshatebah Mizani Dadash")
+
+
     def add_line(self):
 
         line_name   = input("Line Name: ")
@@ -358,7 +360,7 @@ class Panel:
 
     def delete_train(self):
         id = input("chiro mikhay hazf kon? ")
-        check = self.db.remove_data("tarins",id)
+        check = self.db.remove_data("trains",id)
 
         if check:
             print("heyyyy hazf kardiiiddyaa!!!")
@@ -389,3 +391,72 @@ class Panel:
             for train in trains:
                 print("---------------")
                 print(train)  
+                
+    #Passenger
+    
+    def passenger_panel(self):
+        while True:
+            print("\nPassenger Panel")
+            print("1. Register")
+            print("2. Login")
+            print("3. Back")
+
+            i = input("Mikhay koja beri? ")
+
+            if i == "1":
+                self.register_passenger()
+            elif i == "2":
+                self.register_passenger()
+            elif i == "3":
+                self.start()
+            else:
+                print("Dadash dari eshtebah mizani")
+                         
+    def passenger_login_panel(self):
+        print("\nPassenger Login")
+        username = input("Username: ")
+        password = input("Password: ")
+
+        if self.auth.login(username, password, "passenger"):
+            print("Login successful")
+            pass
+        else:
+            print("Username or password is wrong")
+
+    def register_passenger(self):
+        print("\nPassenger Register")
+        username = input("Username: ")
+
+        old_passenger = self.db.read("passengers", username)
+        if old_passenger:
+            print("This username already exists")
+            return
+
+        password = input("Password: ")
+        name = input("Name: ")
+        email = input("Email: ")
+
+        passenger = Passenger(username, password, name, email)
+
+        self.auth.rigester(passenger)
+        self.db.create_DI(passenger, "passengers")
+
+        print("Passenger registered")
+    
+    def passenger_dashboard(self):
+        while True:
+            print("\nPassenger Dashboard")
+            print("1. But Ticket")
+            print("2. Update Profile")
+            print("4. Back")
+
+            i = input("Mikhay koja beri? ")
+
+            if i == "1":
+                pass
+            elif i == "2":
+                pass
+            elif i == "3":
+                return
+            else:
+                print("Dadash dari eshtebah mizani")
