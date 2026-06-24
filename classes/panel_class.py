@@ -107,7 +107,7 @@ class Panel:
         
         #check red method if return use remove data method to delete
         if employer:
-            self.db.remove_data("employers", "username")
+            self.db.remove_data("employers", username)
             self.auth.employers.remove(employer)
             print("Employer is removed")
         else:
