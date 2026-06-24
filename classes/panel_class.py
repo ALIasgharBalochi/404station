@@ -1,6 +1,7 @@
 from classes.UserClass import Admin_User, Employer, Passenger, Authentication
 from database.database import DataBase
-
+from classes.line import Line
+from classes.train import Train
 
 class Panel:
     def __init__(self):
@@ -166,8 +167,225 @@ class Panel:
             elif i == "7":
                 self.delete_train()
             elif i == "8":
-                self.show_trains
+                self.show_trains()
             elif i == "9":
                 self.start()
             else:
                 print("Dari Eshatebah Mizani Dadash")
+    def add_line(self):
+
+        line_name   = input("Line Name: ")
+
+        check_name = self.db.read("lines",line_name)
+        
+        #here it checks that the line_name is not duplicate
+        if check_name:
+            
+            print("ye chi dige bezan in esm tekrariye")
+            self.add_line()
+        
+
+        origin      = input("origin: ")
+        destination = input("destination: ")
+        station     = input("station: (E.X: khatib zade,Asadi,shahrabi,maneyjer jan <3) ").split(sep=",")
+        station_count = len(station)
+        
+        result = self.db.create_DI(Line(line_name,origin,destination,station,station_count),"lines")
+
+        if result:
+            print("Line dorst shod hooraa!!")
+            self.employer_panel() 
+        
+        else:
+            print("moshkely pish omad dobare talash kon") 
+            self.employer_panel()   
+
+
+
+    def update_line(self):
+        Name = input("esm khati ke mikhay update koni chie? ")
+        check = self.db.read("lines",Name)
+
+        if check:
+
+            print(check)
+
+            changable_attr = input("eshgam chi ro mikhy avaz koni: ").lower()
+            new_value = input(f"{changable_attr} be chi taghir bedam: ")
+            updated_data = self.db.update_data( "lines", Name ,changable_attr, new_value)
+            
+            if updated_data:
+                print("khatet update shod horraa!")
+                print(updated_data)
+            
+            else:
+               
+                answer = input("update ba khata movajeh shod, mikhay edame bedi(Y/N)").lower()
+               
+                if answer == "y":
+                    self.update_line()
+            
+                elif answer == "n":
+                    self.employer_panel()
+            
+                else:
+                    print("eshtebah kardi az aval shro kon!")
+                    self.employer_panel()     
+        else:
+            answer = input("hamchin khati nist, mikhay edame bedi(Y/N)").lower()
+               
+            if answer == "y":
+                self.update_line()
+            
+            elif answer == "n":
+                self.employer_panel()
+            
+            else:
+                print("eshtebah kardi az aval shro kon!")
+                self.employer_panel()     
+
+            
+    def delete_line(self):
+        Name = input("chiro mikhay hazf kon? ")
+        check = self.db.remove_data("lines",Name)
+
+        if check:
+            print("heyyyy hazf kardiiiddyaa!!!")
+            self.employer_panel()
+        
+        else:
+            print("donbal chi hasti dada! hamchin chizi nist")
+            
+            again = input("dost dari ey bar dighe emtahan koni?(Y/N)").lower()
+
+            if again == "y":
+                self.delete_line()
+            
+            elif again == "n":
+                self.employer_panel()
+            
+            else:
+                print("eshtebah kardi az aval shro kon!")
+                self.employer_panel()         
+
+    def show_lines(self):
+
+        lines = self.db.read_all_data("lines")
+
+        if len(lines) == 0 :
+            print("listet khaliye baba")
+
+        else:
+            for line in lines:
+                print("---------------")
+                print(line)    
+
+    def add_train(self):
+
+        name = input("name: ")
+        line = input("line: ")
+        avarage_speed = input("avarage_speed: ")
+        quality = input("quality: ")
+        ticket_cost = input("ticket_cost: ")
+        capacity = input("capacity: ")
+
+        
+        result = self.db.create_DI(Train(name,line,avarage_speed,quality,ticket_cost,capacity),"trains")
+
+        if result:
+            print("train dorst shod hooraa!!")
+            self.employer_panel() 
+        
+        else:
+            print("moshkely pish omad dobare talash kon") 
+            self.employer_panel() 
+
+    def update_train(self):
+        id = input("Id train ke mikhay update koni chie? ")
+        check = self.db.read("trains",id)
+
+        if check:
+            print("---------------")
+            print(check)
+
+            changable_attr = input("eshgam chi ro mikhy avaz koni: ").lower()
+            if changable_attr == "id":
+                answer = input("dada chi migi , id avaz nemishe, mikhay edame bedi(Y/N)").lower()
+               
+                if answer == "y":
+                        self.update_train()
+            
+                elif answer == "n":
+                        self.employer_panel()
+            
+                else:
+                    print("eshtebah kardi az aval shro kon!")
+                    self.employer_panel()   
+               
+            new_value = input(f"{changable_attr} be chi taghir bedam: ")
+            updated_data = self.db.update_data( "trains", id ,changable_attr, new_value)
+            
+            if updated_data:
+                print("train update shod horraa!")
+                print(updated_data)
+                self.employer_panel()
+            
+            else:
+               
+                answer = input("update ba khata movajeh shod, mikhay edame bedi(Y/N)").lower()
+               
+                if answer == "y":
+                    self.update_train()
+            
+                elif answer == "n":
+                    self.employer_panel()
+            
+                else:
+                    print("eshtebah kardi az aval shro kon!")
+                    self.employer_panel()     
+        else:
+            answer = input("hamchin id nist, mikhay edame bedi(Y/N)").lower()
+               
+            if answer == "y":
+                self.update_train()
+            
+            elif answer == "n":
+                self.employer_panel()
+            
+            else:
+                print("eshtebah kardi az aval shro kon!")
+                self.employer_panel()   
+
+    def delete_train(self):
+        id = input("chiro mikhay hazf kon? ")
+        check = self.db.remove_data("tarins",id)
+
+        if check:
+            print("heyyyy hazf kardiiiddyaa!!!")
+            self.employer_panel()
+        
+        else:
+            print("donbal chi hasti dada! hamchin chizi nist")
+            
+            again = input("dost dari ey bar dighe emtahan koni?(Y/N)").lower()
+
+            if again == "y":
+                self.delete_train()
+            
+            elif again == "n":
+                self.employer_panel()
+            
+            else:
+                print("eshtebah kardi az aval shro kon!")
+                self.employer_panel()
+
+    def show_trains(self):
+        trains = self.db.read_all_data("trains")
+
+        if len(trains) == 0 :
+            print("listet khaliye baba")
+
+        else:
+            for train in trains:
+                print("---------------")
+                print(train)  
