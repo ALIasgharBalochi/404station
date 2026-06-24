@@ -12,12 +12,6 @@ class Panel:
         self.auth.rigester(admin)
         self.db.create_DI(admin, "admins")
 
-        #Default account for employer
-        employer = Employer("employer", "employer", "mamaad", "Dsadsa", "pooya@gmail.com")
-        self.auth.rigester(employer)
-        self.db.create_DI(employer, "employer")
-
-
     def start(self):
         while True:
             print("\nBe 404 Station Khosh Omadi")
