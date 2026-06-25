@@ -1,164 +1,12 @@
-from classes.UserClass import Admin_User, Employer, Passenger #, Authentication
-from services.authentication import Authentication
-from database.database import DataBase
 from classes.line import Line
 from classes.train import Train
-from utilitys import backButton
+from utilitys import backButton    
 
-class Panel:
-    def __init__(self):
-        self.db   = DataBase()
-        self.auth = Authentication(database=self.db)
-        #Default admin username and password
-        admin = Admin_User("admin", "admin")
-        # self.auth.rigester(admin)
-        self.db.create_DI(admin, "admins")
 
-    def start(self):
-        while True:
-            print("\nBe 404 Station Khosh Omadi")
-            print("1. Admin Panel")
-            print("2. Employer")
-            print("3. Passenger")
-            print("4. Exit")
-
-            choice = input("Mikhay Koja Beri? ")
-
-            if choice == "1":
-                self.admin_login_panel()
-            elif choice == "2":
-                self.employer_login_panel()
-            elif choice == "3":
-                self.passenger_panel()
-            elif choice == "4":
-                print("Shab O RoozegaR Khosh")
-                exit()
-            else:
-                print("Dari Eshatebah Mizani Dadash")
-
-    # Admin
-
-    def admin_login_panel(self):
-        attempts = 1
-        while attempts < 4:
-            print(f"\n--- Admin Login (Attempt {attempts}/3) ---")
-            
-
-            username = input("username: ").strip()
-            #password = input("password: ").strip()
-
-            password = input("password: ").strip()
-            if password.lower() == 'exit':
-                return
-
-            login = self.auth.login(username, password, "admin")
-            if login["status"]:
-                print(login["message"])
-                self.admin_panel()
-                return
-            else:
-                print(login["message"])
-                attempts += 1
-
-    def admin_panel(self):
-        while True:
-            print("\nPanel Modiriati")
-            print("1. Add Emplouyer")
-            print("2. Remove Employer")
-            print("3. Show Employers")
-            print("4. Back")
-
-            i = input("Mikhay Koja Beri? ").strip()
-
-            if i == "1":
-                self.add_employer()
-            elif i == "2":
-                self.remove_employer()
-            elif i == "3":
-                self.show_employer()
-            elif i == "4":
-                self.start()
-                # Exit the current panel and return to the previous caller, 
-                # avoiding unnecessary recursion or stack overflow.
-            else:
-                print("Dari Eshatebah Mizani Dadash")
-
-    def add_employer(self):
-        print("\nAdd employer")
-        username = input("Username: ").strip()
-
-        #use db classes to read employers list
-        # old_employer = self.db.read("employers", username)
-        # if old_employer:
-        #     print("this username already exist")
-        #     return
-        
-
-        password = input("Password: ").strip()
-        first_name = input("First name: ").strip()
-        last_name = input("Last Name: ").strip()
-        email = input("Email: ").strip()
-
-        if backButton.back("dost dary inaro sabt bokoni asalam? (Y/n) "):
-
-            employer = Employer(username, password, first_name, last_name, email)
-
-            #use authentication class to register a employer and added to the list
-            #self.auth.rigester(employer)
-            #self.db.create_DI(employer, "employers")
-            register = self.auth.register(employer)
-
-            #use authentication class to register a employer and added to the list
-            # self.auth.rigester(employer)
-            # self.db.create_DI(employer, "employers")
-            if register["status"]:
-                print(register["message"])
-                self.admin_panel()
-            else:
-                print(register["message"])
-                return
-            # print(f"Employer {username} with {password} is created ")
-
-                print(f"Employer {username} with {password} is created ")
-        else:
-            if backButton.back("dost dari dobare bezani? (Y/n) "):
-                self.add_employer()
-            else:
-                self.admin_panel()    
-        
-    def remove_employer(self):
-        username = input("Enter employer username: ").strip()
-
-        employer = self.db.read("employers", username)
-        
-        #check red method if return use remove data method to delete
-        if employer:
-            if backButton.back("ba hazfe karmad ok hasty? (Y/N) "):
-
-                self.db.remove_data("employers", username)
-                print("Employer is removed")
-
-            else:
-                if backButton.back("dost dari dobare hazf koni? (Y/n) "):
-                    self.remove_employer()
-                else:
-                    self.admin_panel()     
-        else:
-            print("username not found")
-    
-    def show_employer(self):
-        employers = self.db.read_all_data("employers")
-        if len(employers) == 0:
-            print("we don`t have employer yet")
-            return
-        
-        for employer in employers:
-            print("-------------------")
-            print("username: ", employer.username)
-            print("name: ", employer.first_name, employer.last_name)
-            print("username: ", employer.email)
-
-    # Employer
+class EmployerPanel:
+    def __init__(self, db, auth):
+        self.db = db
+        self.auth = auth
 
     def employer_login_panel(self):
         
@@ -227,7 +75,7 @@ class Panel:
             elif i == "8":
                 self.show_trains()
             elif i == "9":
-                self.start()
+                return
             else:
                 print("Dari Eshatebah Mizani Dadash")
 
@@ -267,7 +115,7 @@ class Panel:
             if backButton.back("dost dari dobare bezani? (Y/n) "):
                 self.add_line()
             else:
-                self.admin_panel()  
+                return  
 
 
     def update_line(self):
@@ -604,83 +452,3 @@ class Panel:
             for train in trains:
                 print("---------------")
                 print(train)  
-                
-    #Passenger
-    
-    def passenger_panel(self):
-        while True:
-            print("\nPassenger Panel")
-            print("1. Register")
-            print("2. Login")
-            print("3. Back")
-
-            i = input("Mikhay koja beri? ").strip()
-
-            if i == "1":
-                self.register_passenger()
-            elif i == "2":
-                self.register_passenger()
-            elif i == "3":
-                self.start()
-            else:
-                print("Dadash dari eshtebah mizani")
-                         
-    def passenger_login_panel(self):
-        attempts = 1
-        while attempts < 4: 
-            print(f"\n--- Passenger Login (Attempt {attempts}/3) ---")
-            
-            username = input("Username: ").strip()
-            if username.lower() == 'exit':
-                return
-            password = input("Password: ").strip()
-            if username.lower() == 'exit':
-                return
-            
-            passenger_auth = self.auth.login(username, password, "passenger")
-            if passenger_auth["status"]:
-                print(passenger_auth["message"])
-                self.passenger_dashboard()
-            else:
-                print(passenger_auth["message"])
-                attempts += 1
-                        
-        print("Access Denied! Too many failed attempts.")
-        return
-    
-    def register_passenger(self):
-        print("\nPassenger Register")
-        username = input("Username: ").strip()
-        password = input("Password: ").strip()
-        name = input("Name: ").strip()
-        email = input("Email: ").strip()
-
-        if backButton.back("dost dary hamina ro berizi? (Y/N)"):
-
-            passenger = Passenger(username, password, name, email)
-            passenger_auth = self.auth.register(passenger)
-            
-            if passenger_auth["status"]:
-                print(passenger_auth["message"])
-                self.passenger_panel()
-            else:
-                print(passenger_auth["message"])
-                return
-                
-    def passenger_dashboard(self):
-        while True:
-            print("\n--- Passenger Dashboard ---")
-            print("1. But Ticket")
-            print("2. Update Profile")
-            print("4. Back")
-
-            i = input("Mikhay koja beri? ").strip()
-
-            if i == "1":
-                pass
-            elif i == "2":
-                pass
-            elif i == "3":
-                return
-            else:
-                print("Dadash dari eshtebah mizani")
