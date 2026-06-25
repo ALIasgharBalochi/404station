@@ -1,16 +1,16 @@
-from classes.UserClass import Admin_User, Employer, Passenger, Authentication
+from classes.UserClass import Admin_User, Employer, Passenger #, Authentication
+from services.authentication import Authentication
 from database.database import DataBase
 from classes.line import Line
 from classes.train import Train
 
 class Panel:
     def __init__(self):
-        self.auth = Authentication()
         self.db   = DataBase()
-
+        self.auth = Authentication(database=self.db)
         #Default admin username and password
-        admin = Admin_User("Admin_Train", "Pass_Train")
-        self.auth.rigester(admin)
+        admin = Admin_User("admin", "admin")
+        # self.auth.rigester(admin)
         self.db.create_DI(admin, "admins")
 
     def start(self):
@@ -51,17 +51,13 @@ class Panel:
             if password.lower() == 'exit':
                 return
 
-            if self.auth.login(username, password, "admin"):
-                print("Admin login successful.")
+            login = self.auth.login(username, password, "admin")
+            if login["status"]:
+                print(login["message"])
                 self.admin_panel()
                 return
             else:
-                attempts += 1
-                print(f"Wrong username or password! {4 - attempts} attempts left.")
-
-        print("Access Denied! Too many failed attempts.")
-        return
-
+                print(login["message"])
 
     def admin_panel(self):
         while True:
@@ -91,10 +87,10 @@ class Panel:
         username = input("Username: ")
 
         #use db classes to read employers list
-        old_employer = self.db.read("employers", username)
-        if old_employer:
-            print("this username already exist")
-            return
+        # old_employer = self.db.read("employers", username)
+        # if old_employer:
+        #     print("this username already exist")
+        #     return
         
 
         password = input("Password: ")
@@ -104,11 +100,18 @@ class Panel:
 
         employer = Employer(username, password, first_name, last_name, email)
 
-        #use authentication class to register a employer and added to the list
-        self.auth.rigester(employer)
-        self.db.create_DI(employer, "employers")
+        register = self.auth.register(employer)
 
-        print(f"Employer {username} with {password} is created ")
+        #use authentication class to register a employer and added to the list
+        # self.auth.rigester(employer)
+        # self.db.create_DI(employer, "employers")
+        if register["status"]:
+            print(register["message"])
+            self.admin_panel()
+        else:
+            print(register["message"])
+            return
+        # print(f"Employer {username} with {password} is created ")
 
     def remove_employer(self):
         username = input("Enter employer username: ")
@@ -153,12 +156,15 @@ class Panel:
                     return
                         
 
-            if self.auth.login(username, password, "employer"):
-                print("employer login succesfull.")
+            login = self.auth.login(username, password, "employer")
+            if login["status"]:
+                print(login["message"])
                 self.employer_panel()
                 return
                 
             else:
+                print(login["message"])
+
                 attempts += 1
                 print(f"Eshtebah shod! {4 - attempts}attempts left.")
                     
@@ -222,6 +228,8 @@ class Panel:
         origin      = input("origin: ")
         destination = input("destination: ")
         station     = input("station: (E.X: khatib zade,Asadi,shahrabi,maneyjer jan <3) ").split(sep=",")
+        station.insert(0,origin)
+        station.append(destination)
         station_count = len(station)
         
         result = self.db.create_DI(Line(line_name,origin,destination,station,station_count),"lines")
@@ -245,10 +253,21 @@ class Panel:
             print(check)
 
             changable_attr = input("eshgam chi ro mikhy avaz koni: ").lower()
-            new_value = input(f"{changable_attr} be chi taghir bedam: ")
+            
+            #if user want to change the station we change the input format
+            if changable_attr == "station":
+                new_value = input("station: (E.X: khatib zade,Asadi,shahrabi,maneyjer jan <3) ").split(sep=",")
+            else:
+                new_value = input(f"{changable_attr} be chi taghir bedam: ")
+
             updated_data = self.db.update_data( "lines", Name ,changable_attr, new_value)
             
             if updated_data:
+
+                #if uesr want change the station we updated the station count
+                if changable_attr == "station":
+                    self.db.update_data("lines",Name,"station_count",len(new_value))
+
                 print("khatet update shod horraa!")
                 print(updated_data)
             
@@ -315,6 +334,42 @@ class Panel:
                 print(line)    
 
     def add_train(self):
+
+        name = input("name: ")
+
+        #get all lines
+        lines = self.db.read_all_data("lines") 
+
+        #check we have any line or not 
+        if len(lines) < 1:
+            print("lotfan aval line ra besazid! ")
+            self.employer_panel()
+
+        a = [_line.name for _line in lines]
+        print(f"existed lines: ",a)
+        line = input("line: ")
+
+        if line not in a:
+            flag = True
+            #We will keep the user logged in until they enter the correct value or exit completely.
+            while flag:
+                print("the line is not exist please chose from existed line")
+                choise = input("mikhay edame bedi? (Y,N): ").lower()
+                if choise == 'y':
+                    a = [_line.name for _line in lines]
+                    print(f"existed lines: ",a)
+                    line = input("line: ")
+                    if line in a:
+                        flag = False
+                elif choise == 'n':
+                    flag = False
+                    self.employer_panel()
+
+        avarage_speed = input("avarage_speed: ")
+        quality = input("quality: ")
+        ticket_cost = input("ticket_cost: ")
+        capacity = input("capacity: ")
+
         print("\n--- Adding New Train ---")
         
         try:
@@ -367,8 +422,38 @@ class Panel:
                 else:
                     print("eshtebah kardi az aval shro kon!")
                     self.employer_panel()   
-               
+            #check if user chose change line we show ghe existed line
+            if changable_attr == "line":
+                lines = self.db.read_all_data("lines") 
+
+                #check we have any line or not 
+                if len(lines) < 1:
+                    print("lotfan aval line ra besazid! ")
+                    self.employer_panel()
+
+                a = [_line.name for _line in lines]
+                print(f"existed lines: ",a)
+
             new_value = input(f"{changable_attr} be chi taghir bedam: ")
+            
+            #checke if user choise line to change and the her choise is not in existed line print message and get the value again
+            if changable_attr == "line" and new_value not in a:
+                flag = True
+                #We will keep the user logged in until they enter the correct value or exit completely.
+                while flag:
+                    print("please choise line in existed line . ")
+                    choise = input("mikhay edame bedi? (Y,N): ").lower()
+                    if choise == 'y':
+                        lines = self.db.read_all_data("lines") 
+                        a = [_line.name for _line in lines]
+                        print(f"existed lines: ",a)
+                        new_value = input(f"{changable_attr} be chi taghir bedam: ")
+                        if new_value in a:
+                            flag = False
+                    elif choise == 'n':
+                        flag = False
+                        self.employer_panel()
+
             updated_data = self.db.update_data( "trains", id ,changable_attr, new_value)
             
             if updated_data:
