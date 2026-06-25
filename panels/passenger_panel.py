@@ -1,6 +1,5 @@
 from classes.user import Passenger
 from utilitys import backButton
-from classes.payment import PaymentService
 
 
 class PassengerPanel:
@@ -20,9 +19,9 @@ class PassengerPanel:
             if i == "1":
                 self.register_passenger()
             elif i == "2":
-                self.passenger_login_panel()
+                self.register_passenger()
             elif i == "3":
-                return
+                self.start()
             else:
                 print("Dadash dari eshtebah mizani")
                          
@@ -73,7 +72,6 @@ class PassengerPanel:
             print("\n--- Passenger Dashboard ---")
             print("1. But Ticket")
             print("2. Update Profile")
-            print("3. Charge Wallet")
             print("4. Back")
 
             i = input("Mikhay koja beri? ").strip()
