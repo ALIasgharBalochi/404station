@@ -5,7 +5,7 @@ import uuid
 
 
 class Ticket:
-    def __init__(self, username, train_name,origin, destination, ticket_cost, amount,):
+    def __init__(self, username, train_name,origin, destination, ticket_cost, amount,line ):
         self.id = self.generate_id()
         self.username = self.validate_string(username, "Username")
         self.train_name = self.validate_string(train_name, "Train name")
@@ -14,6 +14,7 @@ class Ticket:
         self.ticket_cost = self.validate_positive(ticket_cost, "Ticket post") 
         self.amount = self.validate_positive(amount, "Amout",  allow_zero=False) 
         self.total_price = amount * ticket_cost
+        self.line = self.validate_string(line, "Line")
         self.time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         
         
