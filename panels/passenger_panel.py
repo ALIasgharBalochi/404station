@@ -68,7 +68,7 @@ class PassengerPanel:
                 print(passenger_auth["message"])
                 return
                 
-    def passenger_dashboard(self, passenger):
+    def passenger_dashboard(self):
         while True:
             print("\n--- Passenger Dashboard ---")
             print("1. But Ticket")
@@ -84,7 +84,7 @@ class PassengerPanel:
                 pass
             elif i == "3":
                 payment_service = PaymentService()
-                payment_service.charge_wallet(passenger)                
+                payment_service.charge_wallet(Passenger)                
             elif i == "4":
                 return
             else:
