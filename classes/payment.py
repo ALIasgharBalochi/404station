@@ -1,6 +1,6 @@
 from classes.Card import card
 from BANK import API
-
+from classes.user import Passenger
 
 class PaymentService:
     def __init__(self) -> None:
@@ -30,7 +30,7 @@ class PaymentService:
             print("payment ID:", payment)
         
         except ValueError as error:
-            print("payment failed")
+            print("payment failed:", error)
     
     def show_wallet_balance(self, passenger):
         print("\nWallet Balance")

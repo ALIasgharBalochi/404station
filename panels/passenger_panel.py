@@ -42,7 +42,7 @@ class PassengerPanel:
             passenger_auth = self.auth.login(username, password, "passenger")
             if passenger_auth["status"]:
                 print(passenger_auth["message"])
-                self.passenger_dashboard(passenger_auth)
+                self.passenger_dashboard(passenger_auth["obj"])
             else:
                 print(passenger_auth["message"])
                 attempts += 1
