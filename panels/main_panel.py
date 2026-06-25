@@ -1,15 +1,8 @@
-from classes.user import Admin_User, Employer, Passenger #, Authentication
-from services.authentication import Authentication
-from database.database import DataBase
-
 class MainPanel:
-    def __init__(self):
-        self.db   = DataBase()
-        self.auth = Authentication(database=self.db)
-        #Default admin username and password
-        admin = Admin_User("admin", "admin")
-        # self.auth.rigester(admin)
-        self.db.create_DI(admin, "admins")
+    def __init__(self, admin_panel, employer_panel, passenger_panel):
+        self.admin_panel = admin_panel
+        self.employer_panel = employer_panel
+        self.passenger_panel = passenger_panel
 
     def start(self):
         while True:
