@@ -3,7 +3,7 @@ from classes.train import Train
 from utilitys import backButton    
 
 
-class EmplooyerPanel:
+class EmployerPanel:
     def __init__(self, db, auth):
         self.db = db
         self.auth = auth
