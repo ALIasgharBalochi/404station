@@ -63,9 +63,11 @@ class DataBase:
         try:
             for i in array:
                 if getattr(i,key) == pointer:
-                    setattr(i, attr, new_value)  # output of setatter is None
-                    return i
-            return False
+                    if hasattr(i,attr):
+                        setattr(i, attr, new_value)  # output of setatter is None
+                        return i
+                    return False
+                return False
             
 
 
