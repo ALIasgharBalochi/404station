@@ -81,7 +81,7 @@ class PassengerPanel:
             if i == "1":
                 self.buy_ticket(passenger)
             elif i == "2":
-                pass
+                self.update_profile(passenger)
             elif i == "3":
                 self.wallet_panel(passenger)                
             elif i == "4":
@@ -199,4 +199,64 @@ class PassengerPanel:
                 return
             else:
                 print("Dadash dari eshtebah mizani")
-                
+
+    def update_profile(self,passenger):
+        print("\n-------------- Update Profile ----------")
+        print("this is your curent information:")
+        print(passenger)
+        username = passenger.username
+        
+        changable_attr = input("chi ro mikhay taghir bedi? ").strip()
+
+        if changable_attr != "username":
+
+            new_value = input(f"{changable_attr} be chi mikhay taghir bedam: ").strip()
+
+            if backButton.back("motmaeniiiiiii? (Y/N)"):
+                try: 
+                    updated_data = self.db.update_data( "passengers", username ,changable_attr, new_value)
+
+                    if updated_data:
+                        print("information updated!")
+                        print(updated_data)
+                    else:
+                    
+                        answer = input("user hamchin chizi nadare, mikhay edame bedi(Y/N)").lower()
+                    
+                        if answer == "y":
+                            self.update_profile(passenger)
+                        elif answer == "n":
+                            self.passenger_dashboard(passenger)
+                        else:
+                            answer = input("update ba khata movajeh shod, mikhay edame bedi(Y/N)").lower().strip()
+                        
+                            if answer == "y":
+                                self.update_profile(passenger)
+                            elif answer == "n":
+                                self.passenger_dashboard(passenger)
+                            else:
+                                print("eshtebah kardi az aval shro kon!")
+                                self.passenger_dashboard(passenger)   
+                except Exception as e:
+                    print(f"khataaaa: {e}")
+                    self.passenger_dashboard(passenger)   
+            else:
+                if backButton.back("dost dari dobare bezani? (Y/n) "):
+                    self.update_profile(passenger)
+                else:
+                    self.passenger_dashboard(passenger)              
+        else:
+            answer = input("username is unchangable,mikhay edame bedi? (Y/N)").lower().strip()
+            if answer == "y":
+                self.update_profile(passenger)
+            
+            elif answer == "n":
+                self.passenger_dashboard(passenger)
+            else:
+                print("eshtebah kardi az aval shro kon!")
+                self.passenger_dashboard(passenger)     
+
+
+
+
+
