@@ -22,12 +22,12 @@ class Employer(User):
         return super().__str__() + f"First Name: {self.first_name}\nLast Name: {self.last_name}\nEmail:{self.email}"   
         
 class Passenger(User):
-    def __init__(self,username,password,name,email,wallet):
+    def __init__(self,username,password,name,email):
         super().__init__(username,password,"passenger")
         self.name = name
         self.email = email
         self.wallet = 0
-        self.card = []
+        self.cards = []
        
         
     def __str__(self):

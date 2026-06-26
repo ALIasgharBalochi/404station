@@ -1,6 +1,5 @@
 from classes.Card import Card
 from BANK import API
-from classes.user import Passenger
 
 class PaymentService:
     def __init__(self) -> None:
@@ -10,7 +9,9 @@ class PaymentService:
         print("\nMy Cards")
         if not passenger.cards:
             print("No saved cards yet")
-            return    
+            return
+        for index, saved_card in enumerate(passenger.cards, start=1):
+            print(f"{index}. {saved_card}")
     
     def _read_amount(self):
         try:
@@ -26,10 +27,10 @@ class PaymentService:
     def _read_new_card(self):
         try:
             card_number = input("Card Number: ").strip()
-            exp_month = int(input("Card Number: ").strip())
-            exp_year = int(input("Card Number: ").strip())
-            password = input("Card Number: ").strip()
-            cvv2 = input("Card Number: ").strip()
+            exp_month = int(input("Exp Month: ").strip())
+            exp_year = int(input("Exp Year: ").strip())
+            password = input("Password: ").strip()
+            cvv2 = input("CVV2: ").strip()
             
             
             return Card(card_number, exp_month, exp_year, password, cvv2)
@@ -51,13 +52,13 @@ class PaymentService:
             
             print("invalid choice")
             return None, False
-        
+        return self._read_new_card(), True
         
     def _choose_saved_Card(self, passenger):
         if not passenger.cards:
             print("you dont have any card")
             return None
-        self.show_my_card(passenger)
+        self.show_my_cards(passenger)
         
         try:
             choice = int(input("choose card number: ").strip())
@@ -66,33 +67,37 @@ class PaymentService:
         except ValueError:
             pass
         print("invalid card choice")
+        return None
     
     def charge_wallet(self, passenger):
         print("\nCharge Walllet")
+        amount = self._read_amount()
+        if amount is None:
+            return False
+        
+        selected_card, should_save = self._get_card_for_payment(passenger)
+        if selected_card is None:
+            return False
         
         try:
-            amount = int(input("Cheghadr charge mikhaye?"))
-            
-            if amount <= 0:
-                print("mablagh vared shode bayad bishtar az 0 bashad")
-                return
-        
-            card_number = input("shomare cartet chande?").strip()
-            exp_month = int(input("mahe enghezaye kartet chiye?").strip())
-            exp_year = int(input("sale enghezaye kartet chiye?").strip())
-            password = input("password kartet chiye?").strip()
-            cvv2 = input("cvv2 enghezaye kartet chiye?").strip()
-            
-            payment = self.bank.pay(card_number, exp_month, exp_year, password, cvv2, amount)
-
+            payment_id = self.bank.pay(
+                selected_card.card,
+                selected_card.exp_month,
+                selected_card.exp_year,
+                selected_card.password,
+                selected_card.cvv2,
+                amount
+            )
             passenger.wallet += amount
-
+            if should_save:
+                passenger.cards.append(selected_card)
             print("wallet charged succesfully")
-            print("payment ID:", payment)
-        
+            print("payment ID:", payment_id)
+            return True
         except ValueError as error:
             print("payment failed:", error)
-    
+            return False
+            
     def pay_from_wallet(self,amount,passenger):
         if passenger.wallet < amount:
             print("your balance is not enough")
