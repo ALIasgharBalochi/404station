@@ -1,6 +1,7 @@
-from classes.Card import card
+from classes.Card import Card
 from BANK import API
 from classes.user import Passenger
+from classes.Wallet import Wallet
 
 class PaymentService:
     def __init__(self) -> None:
@@ -23,9 +24,9 @@ class PaymentService:
             cvv2 = int(input("cvv2 enghezaye kartet chiye?").strip())
             
             payment = self.bank.pay(card_number, exp_month, exp_year, password, cvv2, amount)
-        
+
             passenger.wallet += amount
-        
+
             print("wallet charged succesfully")
             print("payment ID:", payment)
         

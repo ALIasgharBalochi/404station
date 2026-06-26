@@ -103,11 +103,27 @@ class PassengerPanel:
             if i == "1":
                 pass
             elif i == "2":
-                payment_service = PaymentService()
-                payment_service.charge_wallet(passenger)
+                self.charge_wallet_panel()
             elif i == "3":
                 payment_service.show_wallet_balance(passenger)               
             elif i == "4":
                 return
             else:
                 print("Dadash dari eshtebah mizani")
+
+    def charge_wallet_panel(self,passenger):
+           if passenger.cards:
+               print("1.use saved cards: ")
+               print("2.add new card: ")
+
+               i = input("type your choose: ")
+
+               if i == "1":
+                    pass
+               elif i == "2":
+                    self.charge_wallet_panel()
+
+    def read_card():
+        pass
+
+                

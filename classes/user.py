@@ -22,7 +22,7 @@ class Employer(User):
         return super().__str__() + f"First Name: {self.first_name}\nLast Name: {self.last_name}\nEmail:{self.email}"   
         
 class Passenger(User):
-    def __init__(self,username,password,name,email):
+    def __init__(self,username,password,name,email,wallet):
         super().__init__(username,password,"passenger")
         self.name = name
         self.email = email
