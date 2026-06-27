@@ -49,7 +49,7 @@ class PassengerPanel:
                 print(passenger_auth["message"])
                 attempts += 1
                         
-        print("\nAccess Denied! Too many failed attempts.")
+        CLI.error("\nAccess Denied! Too many failed attempts.")
         return
     
     def register_passenger(self):
@@ -65,10 +65,10 @@ class PassengerPanel:
             passenger_auth = self.auth.register(passenger)
             
             if passenger_auth["status"]:
-                print(passenger_auth["message"])
+                CLI.success(passenger_auth["message"])
                 self.passenger_panel()
             else:
-                print(passenger_auth["message"])
+                CLI.error(passenger_auth["message"])
                 return
                 
     def passenger_dashboard(self,passenger):
@@ -90,7 +90,7 @@ class PassengerPanel:
             elif i == "4":
                 self.passenger_dashboard(passenger)
             else:
-                print("\nDadash dari eshtebah mizani")
+                CLI.error("\nDadash dari eshtebah mizani")
 
     def buy_ticket(self,passenger):
         CLI.title("\n--- BUY Panel ---")
@@ -170,10 +170,10 @@ class PassengerPanel:
 
             is_printed = print_file.save_to_file("ticket.txt",username=ticket.username,train_name=ticket.train_name,origin=ticket.origin,destination=ticket.destination,ticket_cost=ticket.ticket_cost,count_ticket=ticket.amount,data=ticket.time)
             if is_printed:
-                print("\nyour ticket has successfuley been created")
+                CLI.success("\nyour ticket has successfuley been created")
                 self.passenger_dashboard(passenger)
             else:
-                print("\nWe had a problem when creating the ticket.")
+                CLI.error("\nWe had a problem when creating the ticket.")
                 self.passenger_dashboard(passenger)
 
         except Exception as e:
@@ -201,7 +201,7 @@ class PassengerPanel:
             elif i == "4":
                 return
             else:
-                print("\nDadash dari eshtebah mizani")
+                CLI.error("\nDadash dari eshtebah mizani")
 
     def update_profile(self,passenger):
         CLI.title("\n--- Update Profile ---")
@@ -220,7 +220,7 @@ class PassengerPanel:
                 valid_email = check(password="",email=new_value,options="e")
                 
                 if not valid_email:
-                    print("\nyour email address is not valid")
+                    CLI.error("\nyour email address is not valid")
                     self.update_profile(passenger)
 
             if changable_attr == "password":
@@ -228,7 +228,7 @@ class PassengerPanel:
                 valid_password = check(password=new_value,email="",options="p")
 
                 if not valid_password:
-                    print("\nyour password is not valid")
+                    CLI.error("\nyour password is not valid")
                     self.update_profile(passenger)    
 
 
@@ -242,21 +242,21 @@ class PassengerPanel:
                         print(updated_data)
                     else:
                     
-                        answer = input("\nuser hamchin chizi nadare, mikhay edame bedi(Y/N)").lower()
+                        answer = CLI.warning("\nuser hamchin chizi nadare, mikhay edame bedi(Y/N)").lower()
                     
                         if answer == "y":
                             self.update_profile(passenger)
                         elif answer == "n":
                             self.passenger_dashboard(passenger)
                         else:
-                            answer = input("\nupdate ba khata movajeh shod, mikhay edame bedi(Y/N)").lower().strip()
+                            answer = CLI.warning("\nupdate ba khata movajeh shod, mikhay edame bedi(Y/N)").lower().strip()
                         
                             if answer == "y":
                                 self.update_profile(passenger)
                             elif answer == "n":
                                 self.passenger_dashboard(passenger)
                             else:
-                                print("\neshtebah kardi az aval shro kon!")
+                                CLI.error("\neshtebah kardi az aval shro kon!")
                                 self.passenger_dashboard(passenger)   
                 except Exception as e:
                     print(f"\nkhataaaa: {e}")
@@ -274,7 +274,7 @@ class PassengerPanel:
             elif answer == "n":
                 self.passenger_dashboard(passenger)
             else:
-                print("\neshtebah kardi az aval shro kon!")
+                CLI.error("\neshtebah kardi az aval shro kon!")
                 self.passenger_dashboard(passenger)     
 
 

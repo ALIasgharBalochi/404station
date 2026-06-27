@@ -27,18 +27,18 @@ class EmployerPanel:
 
             login = self.auth.login(username, password, "employer")
             if login["status"]:
-                print(login["message"])
+                CLI.success(login["message"])
                 self.employer_panel()
                 return
                 
             else:
-                print(login["message"])
+                CLI.error(login["message"])
 
                 attempts += 1
                 print(f"\nEshtebah shod! {4 - attempts}attempts left.")
                     
                 
-        print("\n Access Denied! soookhtiiii heheheheheh")
+        CLI.error("\n Access Denied! soookhtiiii heheheheheh")
         return
     
     
@@ -235,7 +235,7 @@ class EmployerPanel:
         lines = self.db.read_all_data("lines")
 
         if len(lines) == 0 :
-            print("\nlistet khaliye baba")
+            CLI.warning("\nlistet khaliye baba")
 
         else:
             for line in lines:
@@ -274,7 +274,7 @@ class EmployerPanel:
                 flag = True
                 #We will keep the user logged in until they enter the correct value or exit completely.
                 while flag:
-                    print("\nthe line is not exist please chose from existed line")
+                    CLI.title("\nthe line is not exist please chose from existed line")
                     choise = input("\nmikhay edame bedi? (Y,N): ").lower()
                     if choise == 'y':
                         a = [_line.name for _line in lines]
