@@ -31,7 +31,7 @@ class Passenger(User):
        
         
     def __str__(self):
-        return super().__str__() + f"Name: {self.name}\nEmail:{self.email}"        
+        return super().__str__() + f"Name: {self.name}\nEmail:{self.email}\nPassword:{self.password}"        
     
         
         
