@@ -16,22 +16,26 @@ class AdminPanel:
             
 
             username = input("username: ").strip()
+            if username.lower() == 'exit':
+                return 
             #password = input("password: ").strip()
 
             password = input("password: ").strip()
             if password.lower() == 'exit':
-                return
+                return 
 
             login = self.auth.login(username, password, "admin")
             if login["status"]:
-                print("")
-                print(login["message"])
+                CLI.success(login["message"])
                 self.admin_panel()
                 return
             else:
                 print("")
-                print(login["message"])
+                CLI.error(login["message"])
                 attempts += 1
+                
+        CLI.error("Access Denied! Too many failed attempts.") 
+        return        
 
     def admin_panel(self):
         while True:
@@ -54,7 +58,7 @@ class AdminPanel:
                 # Exit the current panel and return to the previous caller, 
                 # avoiding unnecessary recursion or stack overflow.
             else:
-                print("\nDari Eshatebah Mizani Dadash")
+                CLI.error("\nDari Eshatebah Mizani Dadash")
 
     def add_employer(self):
         CLI.title("\n--- Add employer ---")
@@ -85,16 +89,14 @@ class AdminPanel:
             # self.auth.rigester(employer)
             # self.db.create_DI(employer, "employers")
             if register["status"]:
-                print("")
-                print(register["message"])
+                CLI.success(register["message"])
                 self.admin_panel()
             else:
-                print("")
-                print(register["message"])
+                CLI.error(register["message"])
                 return
             # print(f"Employer {username} with {password} is created ")
 
-                print(f"Employer {username} with {password} is created ")
+            print(f"Employer {username} with {password} is created ")
         else:
             if backButton.back("\ndost dari dobare bezani? (Y/n) "):
                 self.add_employer()
@@ -112,7 +114,7 @@ class AdminPanel:
             if backButton.back("\nba hazfe karmad ok hasty? (Y/N) "):
 
                 self.db.remove_data("employers", username)
-                print("\nEmployer is removed")
+                CLI.success("\nEmployer is removed") 
 
             else:
                 if backButton.back("\ndost dari dobare hazf koni? (Y/n) "):
@@ -120,13 +122,15 @@ class AdminPanel:
                 else:
                     self.admin_panel()     
         else:
-            print("\nusername not found")
+            CLI.warning("Username not found")
+            
+        return
     
     def show_employer(self):
         CLI.title("\n--- Current Employer ---")
         employers = self.db.read_all_data("employers")
         if len(employers) == 0:
-            print("\nwe don`t have employer yet")
+            CLI.info("We don't have any employers yet.")
             return
         
         for employer in employers:

@@ -22,9 +22,11 @@ class PassengerPanel:
             if i == "1":
                 self.register_passenger()
             elif i == "2":
-                self.passenger_login_panel()
+                passenger = self.passenger_login_panel() 
+                if passenger:
+                    self.passenger_dashboard(passenger)
             elif i == "3":
-                self.passenger_dashboard()
+                return
             else:
                 print("\nDadash dari eshtebah mizani")
                          
@@ -49,7 +51,7 @@ class PassengerPanel:
                 print(passenger_auth["message"])
                 attempts += 1
                         
-        print("\nAccess Denied! Too many failed attempts.")
+        CLI.error("\nAccess Denied! Too many failed attempts.")
         return
     
     def register_passenger(self):
@@ -88,7 +90,7 @@ class PassengerPanel:
             elif i == "3":
                 self.wallet_panel(passenger)                
             elif i == "4":
-                self.passenger_dashboard(passenger)
+                return
             else:
                 print("\nDadash dari eshtebah mizani")
 
