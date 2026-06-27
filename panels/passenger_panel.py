@@ -2,6 +2,8 @@ from classes.user import Passenger
 from classes.payment import PaymentService
 from utilitys import backButton, print_file
 from classes.ticket import Ticket
+from utilitys.checker import check
+
 class PassengerPanel:
     def __init__(self, database, authentication):
         self.db = database
@@ -211,6 +213,24 @@ class PassengerPanel:
         if changable_attr != "username":
 
             new_value = input(f"{changable_attr} be chi mikhay taghir bedam: ").strip()
+
+            if changable_attr == "email":
+
+                valid_email = check(password="",email=new_value,options="e")
+                
+                if not valid_email:
+                    print("\nyour email address is not valid")
+                    self.update_profile(passenger)
+
+            if changable_attr == "password":
+
+                valid_password = check(password=new_value,email="",options="p")
+
+                if not valid_password:
+                    print("\nyour password is not valid")
+                    self.update_profile(passenger)    
+
+
 
             if backButton.back("motmaeniiiiiii? (Y/N)"):
                 try: 
