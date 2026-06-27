@@ -7,7 +7,7 @@ class MainPanel:
     def start(self):
         while True:
             self.show_menu()
-            choice = input("Mikhay Koja Beri? ").strip()
+            choice = input("\nMikhay Koja Beri? ").strip()
 
             if choice == "1":
                 self.admin_panel.admin_login_panel()
@@ -19,14 +19,14 @@ class MainPanel:
                 self.passenger_panel.passenger_panel()
 
             elif choice == "4":
-                print("Shab O Roozegar Khosh")
+                print("\nShab O Roozegar Khosh")
                 break
 
             else:
-                print("Dari Eshtebah Mizani Dadash")
+                print("\nDari Eshtebah Mizani Dadash")
 
     def show_menu(self):
-        print("\nBe 404 Station Khosh Omadi")
+        print("\n--- Be 404 Station Khosh Omadi ---")
         print("1. Admin Panel")
         print("2. Employer Panel")
         print("3. Passenger Panel")

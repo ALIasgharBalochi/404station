@@ -32,13 +32,13 @@ class AdminPanel:
 
     def admin_panel(self):
         while True:
-            print("\nPanel Modiriati")
+            print("\n--- Panel Modiriati ---")
             print("1. Add Emplouyer")
             print("2. Remove Employer")
             print("3. Show Employers")
             print("4. Back")
 
-            i = input("Mikhay Koja Beri? ").strip()
+            i = input("\nMikhay Koja Beri? ").strip()
 
             if i == "1":
                 self.add_employer()
@@ -51,10 +51,10 @@ class AdminPanel:
                 # Exit the current panel and return to the previous caller, 
                 # avoiding unnecessary recursion or stack overflow.
             else:
-                print("Dari Eshatebah Mizani Dadash")
+                print("\nDari Eshatebah Mizani Dadash")
 
     def add_employer(self):
-        print("\nAdd employer")
+        print("\n--- Add employer ---")
         username = input("Username: ").strip()
 
         #use db classes to read employers list
@@ -69,7 +69,7 @@ class AdminPanel:
         last_name = input("Last Name: ").strip()
         email = input("Email: ").strip()
 
-        if backButton.back("dost dary inaro sabt bokoni asalam? (Y/n) "):
+        if backButton.back("\ndost dary inaro sabt bokoni asalam? (Y/n) "):
 
             employer = Employer(username, password, first_name, last_name, email)
 
@@ -91,35 +91,37 @@ class AdminPanel:
 
                 print(f"Employer {username} with {password} is created ")
         else:
-            if backButton.back("dost dari dobare bezani? (Y/n) "):
+            if backButton.back("\ndost dari dobare bezani? (Y/n) "):
                 self.add_employer()
             else:
                 self.admin_panel()    
         
     def remove_employer(self):
+        print("\n--- Remove Employer ---")
         username = input("Enter employer username: ").strip()
 
         employer = self.db.read("employers", username)
         
         #check red method if return use remove data method to delete
         if employer:
-            if backButton.back("ba hazfe karmad ok hasty? (Y/N) "):
+            if backButton.back("\nba hazfe karmad ok hasty? (Y/N) "):
 
                 self.db.remove_data("employers", username)
-                print("Employer is removed")
+                print("\nEmployer is removed")
 
             else:
-                if backButton.back("dost dari dobare hazf koni? (Y/n) "):
+                if backButton.back("\ndost dari dobare hazf koni? (Y/n) "):
                     self.remove_employer()
                 else:
                     self.admin_panel()     
         else:
-            print("username not found")
+            print("\nusername not found")
     
     def show_employer(self):
+        print("\n--- Current Employer ---")
         employers = self.db.read_all_data("employers")
         if len(employers) == 0:
-            print("we don`t have employer yet")
+            print("\nwe don`t have employer yet")
             return
         
         for employer in employers:

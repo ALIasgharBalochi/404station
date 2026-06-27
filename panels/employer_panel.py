@@ -34,7 +34,7 @@ class EmployerPanel:
                 print(login["message"])
 
                 attempts += 1
-                print(f"Eshtebah shod! {4 - attempts}attempts left.")
+                print(f"\nEshtebah shod! {4 - attempts}attempts left.")
                     
                 
         print("\n Access Denied! soookhtiiii heheheheheh")
@@ -43,7 +43,7 @@ class EmployerPanel:
     
     def employer_panel(self):
         while True:
-            print("\nPanel employer")
+            print("\n--- Panel employer ---")
             print("1. Add Line")
             print("2. Update Line")
             print("3. Delete Line")
@@ -56,7 +56,7 @@ class EmployerPanel:
 
             
 
-            i = input("Mikhay Koja Beri? ").strip()
+            i = input("\nMikhay Koja Beri? ").strip()
 
             if i == "1":
                 self.add_line()
@@ -77,10 +77,11 @@ class EmployerPanel:
             elif i == "9":
                 return
             else:
-                print("Dari Eshatebah Mizani Dadash")
+                print("\nDari Eshatebah Mizani Dadash")
 
 
     def add_line(self):
+        print("\n--- Add Line ---")
 
         line_name   = input("Line Name: ").strip()
 
@@ -89,7 +90,7 @@ class EmployerPanel:
         #here it checks that the line_name is not duplicate
         if check_name:
             
-            print("ye chi dige bezan in esm tekrariye")
+            print("\nye chi dige bezan in esm tekrariye")
             self.add_line()
         
 
@@ -100,26 +101,27 @@ class EmployerPanel:
         station.append(destination)
         station_count = len(station)
         
-        if backButton.back("dost dari hmin bashe?(Y/N)"):
+        if backButton.back("\ndost dari hmin bashe?(Y/N)"):
 
             result = self.db.create_DI(Line(line_name,origin,destination,station,station_count),"lines")
 
             if result:
-                print("Line dorst shod hooraa!!")
+                print("\nLine dorst shod hooraa!!")
                 self.employer_panel() 
             
             else:
-                print("moshkely pish omad dobare talash kon") 
+                print("\nmoshkely pish omad dobare talash kon") 
                 self.employer_panel()   
         else:
-            if backButton.back("dost dari dobare bezani? (Y/n) "):
+            if backButton.back("\ndost dari dobare bezani? (Y/n) "):
                 self.add_line()
             else:
                 return  
 
 
     def update_line(self):
-        Name = input("esm khati ke mikhay update koni chie? ").strip()
+        print("\n--- Update Line ---")
+        Name = input("\nesm khati ke mikhay update koni chie? ").strip()
         check = self.db.read("lines",Name)
 
         if check:
@@ -131,15 +133,15 @@ class EmployerPanel:
 
             # if backButton.back("motmaeniiiiiii? (Y/N)"):
 
-            changable_attr = input("eshgam chi ro mikhy avaz koni: ").lower()
+            changable_attr = input("\neshgam chi ro mikhy avaz koni: ").lower()
                 
                 #if user want to change the station we change the input format
             if changable_attr == "station":
-                new_value = input("station: (E.X: khatib zade,Asadi,shahrabi,maneyjer jan <3) ").split(sep=",")
+                new_value = input("\nstation: (E.X: khatib zade,Asadi,shahrabi,maneyjer jan <3) ").split(sep=",")
             else:
-                new_value = input(f"{changable_attr} be chi taghir bedam: ")
+                new_value = input(f"\n{changable_attr} be chi taghir bedam: ")
 
-            if backButton.back("motmaeniiiiiii? (Y/N)"):
+            if backButton.back("\nmotmaeniiiiiii? (Y/N)"):
                 updated_data = self.db.update_data( "lines", Name ,changable_attr, new_value)
                 
                 if updated_data:
@@ -148,12 +150,12 @@ class EmployerPanel:
                     if changable_attr == "station":
                         self.db.update_data("lines",Name,"station_count",len(new_value))
 
-                    print("khatet update shod horraa!")
+                    print("\nkhatet update shod horraa!")
                     print(updated_data)
             
                 else:
                 
-                    answer = input("update ba khata movajeh shod, mikhay edame bedi(Y/N)").lower()
+                    answer = input("\nupdate ba khata movajeh shod, mikhay edame bedi(Y/N)").lower()
                 
                     if answer == "y":
                         self.update_line()
@@ -163,7 +165,7 @@ class EmployerPanel:
                 
                     else:
                     
-                        answer = input("update ba khata movajeh shod, mikhay edame bedi(Y/N)").lower().strip()
+                        answer = input("\nupdate ba khata movajeh shod, mikhay edame bedi(Y/N)").lower().strip()
                     
                         if answer == "y":
                             self.update_line()
@@ -172,16 +174,16 @@ class EmployerPanel:
                             self.employer_panel()
                     
                         else:
-                            print("eshtebah kardi az aval shro kon!")
+                            print("\neshtebah kardi az aval shro kon!")
                             self.employer_panel()   
             else:
-                if backButton.back("dost dari dobare bezani? (Y/n) "):
+                if backButton.back("\ndost dari dobare bezani? (Y/n) "):
                     self.update_line()
                 else:
                     self.employer_panel()              
 
         else:
-            answer = input("hamchin khati nist, mikhay edame bedi(Y/N)").lower().strip()
+            answer = input("\nhamchin khati nist, mikhay edame bedi(Y/N)").lower().strip()
                
             if answer == "y":
                 self.update_line()
@@ -190,30 +192,31 @@ class EmployerPanel:
                 self.employer_panel()
             
             else:
-                print("eshtebah kardi az aval shro kon!")
+                print("\neshtebah kardi az aval shro kon!")
                 self.employer_panel()     
 
             
     def delete_line(self):
-        Name = input("chiro mikhay hazf kon? ").strip()
+        print("\n--- Delete Line ---")
+        Name = input("\nchiro mikhay hazf kon? ").strip()
         check = self.db.remove_data("lines",Name)
 
         if check:
 
-            if backButton.back("dada dari hazfesh mikoni, motmaeni? (Y/N)"):
+            if backButton.back("\ndada dari hazfesh mikoni, motmaeni? (Y/N)"):
 
-                print("heyyyy hazf kardiiiddyaa!!!")
+                print("\nheyyyy hazf kardiiiddyaa!!!")
                 self.employer_panel()
             else:
-                if backButton.back("dost dari dobare hazf koni? (Y/n) "):
+                if backButton.back("\ndost dari dobare hazf koni? (Y/n) "):
                     self.delete_line()
                 else:
                     self.employer_panel()      
         
         else:
-            print("donbal chi hasti dada! hamchin chizi nist")
+            print("\ndonbal chi hasti dada! hamchin chizi nist")
             
-            again = input("dost dari ey bar dighe emtahan koni?(Y/N)").lower().strip()
+            again = input("\ndost dari ey bar dighe emtahan koni?(Y/N)").lower().strip()
 
             if again == "y":
                 self.delete_line()
@@ -222,15 +225,16 @@ class EmployerPanel:
                 self.employer_panel()
             
             else:
-                print("eshtebah kardi az aval shro kon!")
+                print("\neshtebah kardi az aval shro kon!")
                 self.employer_panel()         
 
     def show_lines(self):
+        print("\n--- Show Line ---")
 
         lines = self.db.read_all_data("lines")
 
         if len(lines) == 0 :
-            print("listet khaliye baba")
+            print("\nlistet khaliye baba")
 
         else:
             for line in lines:
@@ -269,8 +273,8 @@ class EmployerPanel:
                 flag = True
                 #We will keep the user logged in until they enter the correct value or exit completely.
                 while flag:
-                    print("the line is not exist please chose from existed line")
-                    choise = input("mikhay edame bedi? (Y,N): ").lower()
+                    print("\nthe line is not exist please chose from existed line")
+                    choise = input("\nmikhay edame bedi? (Y,N): ").lower()
                     if choise == 'y':
                         a = [_line.name for _line in lines]
                         print(f"existed lines: ",a)
@@ -286,19 +290,19 @@ class EmployerPanel:
             ticket_cost = float(input("ticket_cost: "))
             capacity = int(input("capacity: "))
 
-            if backButton.back("dost dari ina ezafe she? (Y/N)"):
+            if backButton.back("\ndost dari ina ezafe she? (Y/N)"):
 
                 result = self.db.create_DI(Train(name,line,avarage_speed,quality,ticket_cost,capacity),"trains")
 
                 if result:
-                    print("train dorst shod hooraa!!")
+                    print("\ntrain dorst shod hooraa!!")
                     self.employer_panel() 
                 
                 else:
-                    print("moshkely pish omad dobare talash kon") 
+                    print("\nmoshkely pish omad dobare talash kon") 
                     self.employer_panel() 
             else:
-                if backButton.back("dost dari dobare bezani? (Y/n) "):
+                if backButton.back("\ndost dari dobare bezani? (Y/n) "):
                     self.add_train()
                 else:
                     self.employer_panel()          
@@ -309,15 +313,16 @@ class EmployerPanel:
                 #     #self.employer_panel() 
                 
         except ValueError as e :
-            print(f" Error dar vorodiha: {e}")
+            print(f"\nError dar vorodiha: {e}")
             
         except Exception as   e:
-            print(f" Error gheire montazere: {e}")
+            print(f"\nError gheire montazere: {e}")
             
         return       
         
 
     def update_train(self):
+        print("\n--- Update Train ---")
         id = input("Id train ke mikhay update koni chie? ").strip()
         check = self.db.read("trains",id)
 
@@ -325,9 +330,9 @@ class EmployerPanel:
             print("---------------")
             print(check)
 
-            changable_attr = input("eshgam chi ro mikhy avaz koni: ").lower().strip()
+            changable_attr = input("\neshgam chi ro mikhy avaz koni: ").lower().strip()
             if changable_attr == "id":
-                answer = input("dada chi migi , id avaz nemishe, mikhay edame bedi(Y/N)").lower().strip()
+                answer = input("\ndada chi migi , id avaz nemishe, mikhay edame bedi(Y/N)").lower().strip()
                
                 if answer == "y":
                         self.update_train()
@@ -336,7 +341,7 @@ class EmployerPanel:
                         self.employer_panel()
             
                 else:
-                    print("eshtebah kardi az aval shro kon!")
+                    print("\neshtebah kardi az aval shro kon!")
                     self.employer_panel()   
             #check if user chose change line we show ghe existed line
             if changable_attr == "line":
@@ -344,11 +349,11 @@ class EmployerPanel:
 
                 #check we have any line or not 
                 if len(lines) < 1:
-                    print("lotfan aval line ra besazid! ")
+                    print("\nlotfan aval line ra besazid! ")
                     self.employer_panel()
 
                 a = [_line.name for _line in lines]
-                print(f"existed lines: ",a)
+                print(f"\nexisted lines: ",a)
 
             new_value = input(f"{changable_attr} be chi taghir bedam: ")
             
@@ -357,31 +362,31 @@ class EmployerPanel:
                 flag = True
                 #We will keep the user logged in until they enter the correct value or exit completely.
                 while flag:
-                    print("please choise line in existed line . ")
-                    choise = input("mikhay edame bedi? (Y,N): ").lower()
+                    print("\nplease choise line in existed line . ")
+                    choise = input("\nmikhay edame bedi? (Y,N): ").lower()
                     if choise == 'y':
                         lines = self.db.read_all_data("lines") 
                         a = [_line.name for _line in lines]
-                        print(f"existed lines: ",a)
-                        new_value = input(f"{changable_attr} be chi taghir bedam: ")
+                        print(f"\nexisted lines: ",a)
+                        new_value = input(f"\n{changable_attr} be chi taghir bedam: ")
                         if new_value in a:
                             flag = False
                     elif choise == 'n':
                         flag = False
                         self.employer_panel()
 
-            if backButton.back("dost dari ina ezafe she? (Y/N)"):            
+            if backButton.back("\ndost dari ina ezafe she? (Y/N)"):            
 
                 updated_data = self.db.update_data( "trains", id ,changable_attr, new_value)
                 
                 if updated_data:
-                    print("train update shod horraa!")
+                    print("\ntrain update shod horraa!")
                     print(updated_data)
                     self.employer_panel()
                 
                 else:
                 
-                    answer = input("update ba khata movajeh shod, mikhay edame bedi(Y/N)").lower()
+                    answer = input("\nupdate ba khata movajeh shod, mikhay edame bedi(Y/N)").lower()
                 
                     if answer == "y":
                         self.update_train()
@@ -393,13 +398,13 @@ class EmployerPanel:
                         self.employer_panel()
                    
             else:
-                if backButton.back("dost dari dobare bezani? (Y/n) "):
+                if backButton.back("\ndost dari dobare bezani? (Y/n) "):
                     self.update_train()
                 else:
                     self.employer_panel()  
 
         else:
-            answer = input("hamchin id nist, mikhay edame bedi(Y/N)").lower().strip()
+            answer = input("\nhamchin id nist, mikhay edame bedi(Y/N)").lower().strip()
                
             if answer == "y":
                 self.update_train()
@@ -408,29 +413,30 @@ class EmployerPanel:
                 self.employer_panel()
             
             else:
-                print("eshtebah kardi az aval shro kon!")
+                print("\neshtebah kardi az aval shro kon!")
                 self.employer_panel()   
 
     def delete_train(self):
-        id = input("chiro mikhay hazf kon? ").strip()
+        print("\n--- Delete Train ---")
+        id = input("\nchiro mikhay hazf kon? ").strip()
         check = self.db.remove_data("trains",id)
 
         if check:
-            if backButton.back("motmaenii? (Y/N)"):
+            if backButton.back("\nmotmaenii? (Y/N)"):
 
-                print("heyyyy hazf kardiiiddyaa!!!")
+                print("\nheyyyy hazf kardiiiddyaa!!!")
                 self.employer_panel()
 
             else:
-                if backButton.back("dost dari dobare bezani? (Y/n) "):
+                if backButton.back("\ndost dari dobare bezani? (Y/n) "):
                     self.delete_train()
                 else:
                     self.employer_panel()      
         
         else:
-            print("donbal chi hasti dada! hamchin chizi nist")
+            print("\ndonbal chi hasti dada! hamchin chizi nist")
             
-            again = input("dost dari ey bar dighe emtahan koni?(Y/N)").lower().strip()
+            again = input("\ndost dari ey bar dighe emtahan koni?(Y/N)").lower().strip()
 
             if again == "y":
                 self.delete_train()
@@ -439,14 +445,15 @@ class EmployerPanel:
                 self.employer_panel()
             
             else:
-                print("eshtebah kardi az aval shro kon!")
+                print("\neshtebah kardi az aval shro kon!")
                 self.employer_panel()
 
     def show_trains(self):
+        print("\n--- Show Train ---")
         trains = self.db.read_all_data("trains")
 
         if len(trains) == 0 :
-            print("listet khaliye baba")
+            print("\nlistet khaliye baba")
 
         else:
             for train in trains:

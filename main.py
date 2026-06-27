@@ -1,10 +1,7 @@
 import subprocess
-
 from database.database import DataBase
 from services.authentication import Authentication
-
 from classes.user import Admin_User
-
 from panels.main_panel import MainPanel
 from panels.admin_panel import AdminPanel
 from panels.employer_panel import EmployerPanel
@@ -18,7 +15,7 @@ def show_banner():
 db = DataBase()
 auth = Authentication(database=db)
 
-default_admin = Admin_User("admin", "admin")
+default_admin = Admin_User("Admin_Train", "Pass_Train")
 db.create_DI(default_admin, "admins")
 
 
