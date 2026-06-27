@@ -1,12 +1,13 @@
 from classes.Card import Card
 from BANK import API
+from utilitys.cli import CLI
 
 class PaymentService:
     def __init__(self) -> None:
         self.bank = API()
     
     def show_my_cards(self, passenger):
-        print("\nMy Cards")
+        CLI.title("\n--- My Cards ---")
         if not passenger.cards:
             print("No saved cards yet")
             return

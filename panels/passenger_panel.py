@@ -3,6 +3,7 @@ from classes.payment import PaymentService
 from utilitys import backButton, print_file
 from classes.ticket import Ticket
 from utilitys.checker import check
+from utilitys.cli import CLI
 
 class PassengerPanel:
     def __init__(self, database, authentication):
@@ -11,10 +12,10 @@ class PassengerPanel:
         self.coocke = {}
     def passenger_panel(self):
         while True:
-            print("\n--- Passenger Panel ---")
-            print("1. Register")
-            print("2. Login")
-            print("3. Back")
+            CLI.title("\n--- Passenger Panel ---")
+            CLI.info("1. Register")
+            CLI.info("2. Login")
+            CLI.info("3. Back")
 
             i = input("\nMikhay koja beri? ").strip()
 
@@ -30,7 +31,7 @@ class PassengerPanel:
     def passenger_login_panel(self):
         attempts = 1
         while attempts < 4: 
-            print(f"\n--- Passenger Login (Attempt {attempts}/3) ---")
+            CLI.title(f"\n--- Passenger Login (Attempt {attempts}/3) ---")
             
             username = input("Username: ").strip()
             if username.lower() == 'exit':
@@ -52,7 +53,7 @@ class PassengerPanel:
         return
     
     def register_passenger(self):
-        print("\n--- Passenger Register ---")
+        CLI.title("\n--- Passenger Register ---")
         username = input("Username: ").strip()
         password = input("Password: ").strip()
         name = input("Name: ").strip()
@@ -72,7 +73,7 @@ class PassengerPanel:
                 
     def passenger_dashboard(self,passenger):
         while True:
-            print("\n--- Passenger Dashboard ---")
+            CLI.title("\n--- Passenger Dashboard ---")
             print("1. Buy Ticket")
             print("2. Update Profile")
             print("3. Wallet / My Cards")
@@ -92,7 +93,7 @@ class PassengerPanel:
                 print("\nDadash dari eshtebah mizani")
 
     def buy_ticket(self,passenger):
-        print("\n--- BUY Panel ---")
+        CLI.title("\n--- BUY Panel ---")
 
         all_lines = self.db.read_all_data("lines")
         all_trains = self.db.read_all_data("trains")
@@ -181,7 +182,7 @@ class PassengerPanel:
         
     def wallet_panel(self,passenger):
         while True:
-            print("\n--- Wallet Dashboard ---")
+            CLI.title("\n--- Wallet Dashboard ---")
             print("1. My Cards")
             print("2. Charge Wallet")
             print("3. Balance")
@@ -203,7 +204,7 @@ class PassengerPanel:
                 print("\nDadash dari eshtebah mizani")
 
     def update_profile(self,passenger):
-        print("\n--- Update Profile ---")
+        CLI.title("\n--- Update Profile ---")
         print("this is your curent information:")
         print(passenger)
         username = passenger.username

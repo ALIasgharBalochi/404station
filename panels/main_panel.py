@@ -1,3 +1,5 @@
+from utilitys.cli import CLI
+
 class MainPanel:
     def __init__(self, admin_panel, employer_panel, passenger_panel):
         self.admin_panel = admin_panel
@@ -26,8 +28,8 @@ class MainPanel:
                 print("\nDari Eshtebah Mizani Dadash")
 
     def show_menu(self):
-        print("\n--- Be 404 Station Khosh Omadi ---")
-        print("1. Admin Panel")
-        print("2. Employer Panel")
-        print("3. Passenger Panel")
-        print("4. Exit")
+        CLI.title("\n--- Be 404 Station Khosh Omadi ---")
+        CLI.info("1. Admin Panel")
+        CLI.info("2. Employer Panel")
+        CLI.info("3. Passenger Panel")
+        CLI.info("4. Exit")

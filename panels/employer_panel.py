@@ -1,6 +1,7 @@
 from classes.line import Line
 from classes.train import Train
-from utilitys import backButton    
+from utilitys import backButton
+from utilitys.cli import CLI   
 
 
 class EmployerPanel:
@@ -13,7 +14,7 @@ class EmployerPanel:
         attempts = 1
         
         while attempts < 4 :
-            print(f"\n--- Employer Login (Attempt {attempts}/3) ---")
+            CLI.title(f"\n--- Employer Login (Attempt {attempts}/3) ---")
 
 
             username = input("username: ").strip()
@@ -43,16 +44,16 @@ class EmployerPanel:
     
     def employer_panel(self):
         while True:
-            print("\n--- Panel employer ---")
-            print("1. Add Line")
-            print("2. Update Line")
-            print("3. Delete Line")
-            print("4. Show Line")
-            print("5. Add Train")
-            print("6. Update Train")
-            print("7. Delete Train")
-            print("8. Show Train")
-            print("9. Sign Out")
+            CLI.title("\n--- Panel employer ---")
+            CLI.info("1. Add Line")
+            CLI.info("2. Update Line")
+            CLI.info("3. Delete Line")
+            CLI.info("4. Show Line")
+            CLI.info("5. Add Train")
+            CLI.info("6. Update Train")
+            CLI.info("7. Delete Train")
+            CLI.info("8. Show Train")
+            CLI.info("9. Sign Out")
 
             
 
@@ -81,7 +82,7 @@ class EmployerPanel:
 
 
     def add_line(self):
-        print("\n--- Add Line ---")
+        CLI.title("\n--- Add Line ---")
 
         line_name   = input("Line Name: ").strip()
 
@@ -120,7 +121,7 @@ class EmployerPanel:
 
 
     def update_line(self):
-        print("\n--- Update Line ---")
+        CLI.title("\n--- Update Line ---")
         Name = input("\nesm khati ke mikhay update koni chie? ").strip()
         check = self.db.read("lines",Name)
 
@@ -197,7 +198,7 @@ class EmployerPanel:
 
             
     def delete_line(self):
-        print("\n--- Delete Line ---")
+        CLI.title("\n--- Delete Line ---")
         Name = input("\nchiro mikhay hazf kon? ").strip()
         check = self.db.remove_data("lines",Name)
 
@@ -229,7 +230,7 @@ class EmployerPanel:
                 self.employer_panel()         
 
     def show_lines(self):
-        print("\n--- Show Line ---")
+        CLI.title("\n--- Show Line ---")
 
         lines = self.db.read_all_data("lines")
 
@@ -253,7 +254,7 @@ class EmployerPanel:
        
         try:
             
-            print("\n--- Adding New Train ---")
+            CLI.title("\n--- Adding New Train ---")
             
             name = input("name: ")
 
@@ -313,16 +314,16 @@ class EmployerPanel:
                 #     #self.employer_panel() 
                 
         except ValueError as e :
-            print(f"\nError dar vorodiha: {e}")
+            CLI.error(f"\nError dar vorodiha: {e}")
             
         except Exception as   e:
-            print(f"\nError gheire montazere: {e}")
+            CLI.error(f"\nError gheire montazere: {e}")
             
         return       
         
 
     def update_train(self):
-        print("\n--- Update Train ---")
+        CLI.title("\n--- Update Train ---")
         id = input("Id train ke mikhay update koni chie? ").strip()
         check = self.db.read("trains",id)
 
@@ -417,7 +418,7 @@ class EmployerPanel:
                 self.employer_panel()   
 
     def delete_train(self):
-        print("\n--- Delete Train ---")
+        CLI.title("\n--- Delete Train ---")
         id = input("\nchiro mikhay hazf kon? ").strip()
         check = self.db.remove_data("trains",id)
 
@@ -449,7 +450,7 @@ class EmployerPanel:
                 self.employer_panel()
 
     def show_trains(self):
-        print("\n--- Show Train ---")
+        CLI.title("\n--- Show Train ---")
         trains = self.db.read_all_data("trains")
 
         if len(trains) == 0 :

@@ -1,5 +1,6 @@
 from classes.user import Employer
 from utilitys import backButton
+from utilitys.cli import CLI
 
 
 class AdminPanel:
@@ -11,7 +12,7 @@ class AdminPanel:
     def admin_login_panel(self):
         attempts = 1
         while attempts < 4:
-            print(f"\n--- Admin Login (Attempt {attempts}/3) ---")
+            CLI.title(f"\n--- Admin Login (Attempt {attempts}/3) ---")
             
 
             username = input("username: ").strip()
@@ -34,11 +35,11 @@ class AdminPanel:
 
     def admin_panel(self):
         while True:
-            print("\n--- Panel Modiriati ---")
-            print("1. Add Emplouyer")
-            print("2. Remove Employer")
-            print("3. Show Employers")
-            print("4. Back")
+            CLI.title("\n--- Panel Modiriati ---")
+            CLI.info("1. Add Emplouyer")
+            CLI.info("2. Remove Employer")
+            CLI.info("3. Show Employers")
+            CLI.info("4. Back")
 
             i = input("\nMikhay Koja Beri? ").strip()
 
@@ -56,7 +57,7 @@ class AdminPanel:
                 print("\nDari Eshatebah Mizani Dadash")
 
     def add_employer(self):
-        print("\n--- Add employer ---")
+        CLI.title("\n--- Add employer ---")
         username = input("Username: ").strip()
 
         #use db classes to read employers list
@@ -101,7 +102,7 @@ class AdminPanel:
                 self.admin_panel()    
         
     def remove_employer(self):
-        print("\n--- Remove Employer ---")
+        CLI.title("\n--- Remove Employer ---")
         username = input("Enter employer username: ").strip()
 
         employer = self.db.read("employers", username)
@@ -122,7 +123,7 @@ class AdminPanel:
             print("\nusername not found")
     
     def show_employer(self):
-        print("\n--- Current Employer ---")
+        CLI.title("\n--- Current Employer ---")
         employers = self.db.read_all_data("employers")
         if len(employers) == 0:
             print("\nwe don`t have employer yet")
