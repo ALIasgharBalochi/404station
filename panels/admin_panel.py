@@ -130,6 +130,6 @@ class AdminPanel:
         
         for employer in employers:
             print("-------------------")
-            print("username: ", employer.username)
-            print("name: ", employer.first_name, employer.last_name)
-            print("username: ", employer.email)
+            print("Username: ", employer.username)
+            print("Full name: ", employer.first_name, employer.last_name)
+            print("Email: ", employer.email)
