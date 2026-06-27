@@ -91,7 +91,7 @@ class EmployerPanel:
         #here it checks that the line_name is not duplicate
         if check_name:
             
-            print("\nye chi dige bezan in esm tekrariye")
+            CLI.warning("\nye chi dige bezan in esm tekrariye")
             self.add_line()
         
 
@@ -175,7 +175,7 @@ class EmployerPanel:
                             self.employer_panel()
                     
                         else:
-                            print("\neshtebah kardi az aval shro kon!")
+                            CLI.error("\neshtebah kardi az aval shro kon!")
                             self.employer_panel()   
             else:
                 if backButton.back("\ndost dari dobare bezani? (Y/n) "):
@@ -193,7 +193,7 @@ class EmployerPanel:
                 self.employer_panel()
             
             else:
-                print("\neshtebah kardi az aval shro kon!")
+                CLI.error("\neshtebah kardi az aval shro kon!")
                 self.employer_panel()     
 
             
@@ -226,7 +226,7 @@ class EmployerPanel:
                 self.employer_panel()
             
             else:
-                print("\neshtebah kardi az aval shro kon!")
+                CLI.error("\neshtebah kardi az aval shro kon!")
                 self.employer_panel()         
 
     def show_lines(self):
@@ -263,7 +263,7 @@ class EmployerPanel:
 
             #check we have any line or not 
             if len(lines) < 1:
-                print("lotfan aval line ra besazid! ")
+                CLI.warning("lotfan aval line ra besazid! ")
                 self.employer_panel()
 
             a = [_line.name for _line in lines]
@@ -300,7 +300,7 @@ class EmployerPanel:
                     self.employer_panel() 
                 
                 else:
-                    print("\nmoshkely pish omad dobare talash kon") 
+                    CLI.error("\nmoshkely pish omad dobare talash kon") 
                     self.employer_panel() 
             else:
                 if backButton.back("\ndost dari dobare bezani? (Y/n) "):
@@ -342,7 +342,7 @@ class EmployerPanel:
                         self.employer_panel()
             
                 else:
-                    print("\neshtebah kardi az aval shro kon!")
+                    CLI.error("\neshtebah kardi az aval shro kon!")
                     self.employer_panel()   
             #check if user chose change line we show ghe existed line
             if changable_attr == "line":
@@ -350,7 +350,7 @@ class EmployerPanel:
 
                 #check we have any line or not 
                 if len(lines) < 1:
-                    print("\nlotfan aval line ra besazid! ")
+                    CLI.warning("\nlotfan aval line ra besazid! ")
                     self.employer_panel()
 
                 a = [_line.name for _line in lines]
@@ -414,7 +414,7 @@ class EmployerPanel:
                 self.employer_panel()
             
             else:
-                print("\neshtebah kardi az aval shro kon!")
+                CLI.error("\neshtebah kardi az aval shro kon!")
                 self.employer_panel()   
 
     def delete_train(self):
@@ -435,7 +435,7 @@ class EmployerPanel:
                     self.employer_panel()      
         
         else:
-            print("\ndonbal chi hasti dada! hamchin chizi nist")
+            CLI.warning("\ndonbal chi hasti dada! hamchin chizi nist")
             
             again = input("\ndost dari ey bar dighe emtahan koni?(Y/N)").lower().strip()
 
@@ -446,7 +446,7 @@ class EmployerPanel:
                 self.employer_panel()
             
             else:
-                print("\neshtebah kardi az aval shro kon!")
+                CLI.error("\neshtebah kardi az aval shro kon!")
                 self.employer_panel()
 
     def show_trains(self):
@@ -454,7 +454,7 @@ class EmployerPanel:
         trains = self.db.read_all_data("trains")
 
         if len(trains) == 0 :
-            print("\nlistet khaliye baba")
+            CLI.warning("\nlistet khaliye baba")
 
         else:
             for train in trains:
