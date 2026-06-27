@@ -1,6 +1,7 @@
 from classes.line import Line
 from classes.train import Train
-from utilitys import backButton    
+from utilitys import backButton  
+
 
 
 class EmployerPanel:
@@ -13,7 +14,7 @@ class EmployerPanel:
         attempts = 1
         
         while attempts < 4 :
-            print(f"\n--- Employer Login (Attempt {attempts}/3) ---")
+            (f"\n--- Employer Login (Attempt {attempts}/3) ---")
 
 
             username = input("username: ").strip()
@@ -33,7 +34,7 @@ class EmployerPanel:
                 
             else:
                 print('')
-                print(["message"])
+                print(login["message"])
 
                 attempts += 1
                 print(f"\nEshtebah shod! {4 - attempts}attempts left.")
