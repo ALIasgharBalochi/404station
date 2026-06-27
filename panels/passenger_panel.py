@@ -41,10 +41,12 @@ class PassengerPanel:
             
             passenger_auth = self.auth.login(username, password, "passenger")
             if passenger_auth["status"]:
+                print('')
                 print(passenger_auth["message"])
                 self.coocke["username"] = username
                 self.passenger_dashboard(passenger_auth["obj"])
             else:
+                print("")
                 print(passenger_auth["message"])
                 attempts += 1
                         
@@ -64,9 +66,11 @@ class PassengerPanel:
             passenger_auth = self.auth.register(passenger)
             
             if passenger_auth["status"]:
+                print('')
                 print(passenger_auth["message"])
                 self.passenger_panel()
             else:
+                print('')
                 print(passenger_auth["message"])
                 return
                 

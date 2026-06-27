@@ -26,12 +26,14 @@ class EmployerPanel:
 
             login = self.auth.login(username, password, "employer")
             if login["status"]:
+                print("")
                 print(login["message"])
                 self.employer_panel()
                 return
                 
             else:
-                print(login["message"])
+                print('')
+                print(["message"])
 
                 attempts += 1
                 print(f"\nEshtebah shod! {4 - attempts}attempts left.")
