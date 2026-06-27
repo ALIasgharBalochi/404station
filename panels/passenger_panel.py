@@ -23,7 +23,7 @@ class PassengerPanel:
             elif i == "2":
                 self.passenger_login_panel()
             elif i == "3":
-                return
+                self.passenger_dashboard()
             else:
                 print("\nDadash dari eshtebah mizani")
                          
@@ -87,7 +87,7 @@ class PassengerPanel:
             elif i == "3":
                 self.wallet_panel(passenger)                
             elif i == "4":
-                return
+                self.passenger_dashboard(passenger)
             else:
                 print("\nDadash dari eshtebah mizani")
 

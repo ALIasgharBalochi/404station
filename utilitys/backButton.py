@@ -8,6 +8,6 @@ def back(message):
         elif answer == "n":
             return False
         
-        print("lotfan dorst vared kon (Y/N)")
+        print("\nlotfan dorst vared kon ---> (Y/N)")
 
     

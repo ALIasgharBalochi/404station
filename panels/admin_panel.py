@@ -23,10 +23,12 @@ class AdminPanel:
 
             login = self.auth.login(username, password, "admin")
             if login["status"]:
+                print("")
                 print(login["message"])
                 self.admin_panel()
                 return
             else:
+                print("")
                 print(login["message"])
                 attempts += 1
 
@@ -82,9 +84,11 @@ class AdminPanel:
             # self.auth.rigester(employer)
             # self.db.create_DI(employer, "employers")
             if register["status"]:
+                print("")
                 print(register["message"])
                 self.admin_panel()
             else:
+                print("")
                 print(register["message"])
                 return
             # print(f"Employer {username} with {password} is created ")
