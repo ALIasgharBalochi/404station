@@ -149,7 +149,20 @@ class EmployerPanel:
                     #if uesr want change the station we updated the station count
                     if changable_attr == "station":
                         self.db.update_data("lines",Name,"station_count",len(new_value))
-
+                    
+                    #if user change the destination or origin we updated the station list 
+                    if changable_attr == "destination" or changable_attr == "origin":
+                        if changable_attr == "origin":
+                            line = self.db.read("lines",Name)
+                            stations = line.station
+                            stations[0] = new_value 
+                            self.db.update_data("lines",Name,"station",stations)
+                        else:
+                            line = self.db.read("lines",Name)
+                            stations = line.station
+                            stations[-1] = new_value 
+                            self.db.update_data("lines",Name,"station",stations)
+                    
                     print("\nkhatet update shod horraa!")
                     print(updated_data)
                     return
