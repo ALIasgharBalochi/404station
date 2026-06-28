@@ -23,7 +23,7 @@ class PassengerPanel:
             elif i == "2":
                 self.passenger_login_panel()
             elif i == "3":
-                self.passenger_dashboard()
+                return
             else:
                 print("\nDadash dari eshtebah mizani")
                          
@@ -45,6 +45,7 @@ class PassengerPanel:
                 print(passenger_auth["message"])
                 self.coocke["username"] = username
                 self.passenger_dashboard(passenger_auth["obj"])
+                return
             else:
                 print("")
                 print(passenger_auth["message"])
@@ -68,7 +69,7 @@ class PassengerPanel:
             if passenger_auth["status"]:
                 print('')
                 print(passenger_auth["message"])
-                self.passenger_panel()
+                return
             else:
                 print('')
                 print(passenger_auth["message"])
@@ -91,7 +92,7 @@ class PassengerPanel:
             elif i == "3":
                 self.wallet_panel(passenger)                
             elif i == "4":
-                self.passenger_dashboard(passenger)
+                return
             else:
                 print("\nDadash dari eshtebah mizani")
 
@@ -103,7 +104,7 @@ class PassengerPanel:
         
         if len(all_lines) < 1:
             print("\nhanoz beliti baray frosh nist hahahahhah :)")
-            self.passenger_dashboard(passenger)
+            return
 
         try:
             for line in all_lines:
@@ -114,7 +115,7 @@ class PassengerPanel:
                 print("\nThe information of all existed trains in the existed_trains.txt file was saved.")
         except Exception as e:
             print(f"\nkhataaaa!: {e}")
-            self.passenger_dashboard(passenger)
+            return
 
         #check the train name is exist in existed train 
         all_train_names = [train.name for train in all_trains]
@@ -128,13 +129,13 @@ class PassengerPanel:
                         flag = False
                 else:
                     flag = False
-                    self.passenger_dashboard(passenger)
+                    return
 
         #find train name by the input of the user
         train = [train for train in all_trains if train.name == train_name]
         if int(train[0].capacity) < 1:
             print(f"\nghatar {train[0].name} zarfiyati nadarad")
-            self.passenger_dashboard(passenger)
+            return
 
         line = self.db.read("lines",train[0].line)
 
@@ -150,7 +151,7 @@ class PassengerPanel:
                             flag = False
                     else:
                         flag = False
-                        self.passenger_dashboard(passenger)
+                        return
                 
             self.db.update_data("trains",train[0].id,"capacity",int(train[0].capacity)-count_ticket)
             try:
@@ -162,26 +163,26 @@ class PassengerPanel:
 
                 #if payment is failed we return user to the passenger dashboard
                 if purchase == False:
-                    self.passenger_dashboard(passenger)
+                    return
 
                 ticket = Ticket(username=self.coocke["username"],train_name=train[0].name,origin=line.origin,destination=line.destination,ticket_cost=train[0].ticket_cost,amount=count_ticket)
             except Exception as e:
                 print(f"\nkhataaa: {e}")
-                self.passenger_dashboard(passenger)
+                return
             
             
 
             is_printed = print_file.save_to_file("ticket.txt",username=ticket.username,train_name=ticket.train_name,origin=ticket.origin,destination=ticket.destination,ticket_cost=ticket.ticket_cost,count_ticket=ticket.amount,data=ticket.time)
             if is_printed:
                 print("\nyour ticket has successfuley been created")
-                self.passenger_dashboard(passenger)
+                return
             else:
                 print("\nWe had a problem when creating the ticket.")
-                self.passenger_dashboard(passenger)
+                return
 
         except Exception as e:
             print(f"\nkhataaa: {e}")
-            self.passenger_dashboard(passenger)
+            return
         
     def wallet_panel(self,passenger):
         while True:
@@ -224,7 +225,7 @@ class PassengerPanel:
                 
                 if not valid_email:
                     print("\nyour email address is not valid")
-                    self.update_profile(passenger)
+                    return
 
             if changable_attr == "password":
 
@@ -232,7 +233,7 @@ class PassengerPanel:
 
                 if not valid_password:
                     print("\nyour password is not valid")
-                    self.update_profile(passenger)    
+                    return    
 
 
 
@@ -243,42 +244,20 @@ class PassengerPanel:
                     if updated_data:
                         print("\ninformation updated!")
                         print(updated_data)
+                        return
                     else:
                     
-                        answer = input("\nuser hamchin chizi nadare, mikhay edame bedi(Y/N)").lower()
-                    
-                        if answer == "y":
-                            self.update_profile(passenger)
-                        elif answer == "n":
-                            self.passenger_dashboard(passenger)
-                        else:
-                            answer = input("\nupdate ba khata movajeh shod, mikhay edame bedi(Y/N)").lower().strip()
-                        
-                            if answer == "y":
-                                self.update_profile(passenger)
-                            elif answer == "n":
-                                self.passenger_dashboard(passenger)
-                            else:
-                                print("\neshtebah kardi az aval shro kon!")
-                                self.passenger_dashboard(passenger)   
+                        print("\nuser hamchin chizi nadare, dobare bezan")
+                        return  
                 except Exception as e:
                     print(f"\nkhataaaa: {e}")
-                    self.passenger_dashboard(passenger)   
+                    return  
             else:
-                if backButton.back("\ndost dari dobare bezani? (Y/n) "):
-                    self.update_profile(passenger)
-                else:
-                    self.passenger_dashboard(passenger)              
+                return             
         else:
-            answer = input("\nusername is unchangable,mikhay edame bedi? (Y/N)").lower().strip()
-            if answer == "y":
-                self.update_profile(passenger)
-            
-            elif answer == "n":
-                self.passenger_dashboard(passenger)
-            else:
-                print("\neshtebah kardi az aval shro kon!")
-                self.passenger_dashboard(passenger)     
+            print("\nusername is unchangable,az aval talash kon")
+            return
+                
 
 
 
