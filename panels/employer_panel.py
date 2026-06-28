@@ -181,16 +181,21 @@ class EmployerPanel:
 
             
     def delete_line(self):
-        print("\n--- Delete Line ---")
-        Name = input("\nchiro mikhay hazf kon? ").strip()
-        check = self.db.remove_data("lines",Name)
+        Name = input("chiro mikhay hazf kon? ").strip()
+        check = self.db.read("lines",Name)
 
         if check:
 
             if backButton.back("\ndada dari hazfesh mikoni, motmaeni? (Y/N)"):
 
-                print("\nheyyyy hazf kardiiiddyaa!!!")
-                return
+                
+                removed = self.db.remove_data("lines",Name)
+                if removed:
+                    print("\nheyyyy hazf kardiiiddyaa!!!")
+                    return
+                else:
+                    print("\nhasf kardan khat ba khata movajeh shod!")
+                    return
             else:
                 return      
         
@@ -356,18 +361,29 @@ class EmployerPanel:
 
     def delete_train(self):
         print("\n--- Delete Train ---")
-        id = input("\nchiro mikhay hazf kon? ").strip()
-        check = self.db.remove_data("trains",id)
+
+        trains = self.db.read_all_data("trains")
+        if not trains:
+            print("list khaliye baba!!!!!")
+            return
+        
+        for train in trains:
+            print(train)
+        
+        id = input("chiro mikhay hazf kon? ").strip()
+        check = self.db.read("trains",id)
 
         if check:
-            if backButton.back("\nmotmaenii? (Y/N)"):
-
-                print("\nheyyyy hazf kardiiiddyaa!!!")
-                return
-
+            if backButton.back("motmaenii? (Y/N)"):
+                remove_data = self.db.remove_data("trains",id)
+                if remove_data :
+                    print("heyyyy hazf kardiiiddyaa!!!")
+                    return
+                else:
+                    print("\n hazf kardan ba khata movajeh shod")
+                    return
             else:
                 return     
-        
         else:
             print("\ndonbal chi hasti dada! hamchin chizi nist dobare bezn")
             return
