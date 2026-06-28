@@ -3,7 +3,7 @@ from classes.payment import PaymentService
 from utilitys import backButton, print_file
 from classes.ticket import Ticket
 from utilitys.checker import check
-
+from utilitys.remove_file import remove_file
 class PassengerPanel:
     def __init__(self, database, authentication):
         self.db = database
@@ -98,6 +98,9 @@ class PassengerPanel:
 
     def buy_ticket(self,passenger):
         print("\n--- BUY Panel ---")
+
+        remove_file("existed_trains.txt")
+        remove_file("ticket.txt")
 
         all_lines = self.db.read_all_data("lines")
         all_trains = self.db.read_all_data("trains")
