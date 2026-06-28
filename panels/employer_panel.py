@@ -239,16 +239,8 @@ class EmployerPanel:
 
     def add_train(self):
 
-        # name = input("name: ").strip()
-        # line = input("line: ").strip()
-        # avarage_speed = input("avarage_speed: ").strip()
-        # quality = input("quality: ").strip()
-        # ticket_cost = input("ticket_cost: ").strip()
-        # capacity = input("capacity: ").strip()
-
-       
         try:
-            
+        
             print("\n--- Adding New Train ---")
             
             name = input("name: ")
@@ -259,7 +251,7 @@ class EmployerPanel:
             #check we have any line or not 
             if len(lines) < 1:
                 print("lotfan aval line ra besazid! ")
-                self.employer_panel()
+                return
 
             a = [_line.name for _line in lines]
             print(f"existed lines: ",a)
@@ -279,168 +271,61 @@ class EmployerPanel:
                             flag = False
                     elif choise == 'n':
                         flag = False
-                        self.employer_panel()
+                        return
 
             avarage_speed = float(input("avarage_speed: "))
             quality = input("quality: ")
             ticket_cost = float(input("ticket_cost: "))
             capacity = int(input("capacity: "))
+            
+            
+            # پیدا کردن line انتخاب شده
+            line_obj = None
+
+            for _line in lines:
+                if _line.name == line:
+                    line_obj = _line
+                    break
+
+            if line_obj is None:
+                print("Line not found.")
+                return
+
+            stations = line_obj.station
+            stop_time = {}
+
+            print("\nEnter stop time for each station:")
+
+            for st in stations:
+                minutes = int(input(f"{st.strip()} (minutes): "))
+                stop_time[st.strip()] = minutes
 
             if backButton.back("dost dari ina ezafe she? (Y/N)"):
 
-                result = self.db.create_DI(Train(name,line,avarage_speed,quality,ticket_cost,capacity),"trains")
+                result = self.db.create_DI(
+                    Train(name, line, avarage_speed, quality, ticket_cost, capacity, stop_time),
+                    "trains"
+                )
 
                 if result:
                     print("train dorst shod hooraa!!")
-                    self.employer_panel() 
                 
                 else:
                     print("moshkely pish omad dobare talash kon") 
-                    self.employer_panel() 
+
             else:
                 if backButton.back("dost dari dobare bezani? (Y/n) "):
                     self.add_train()
                 else:
-                    self.employer_panel()          
-                    
-            
-                # else:
-                #     print("moshkely pish omad dobare talash kon") 
-                #     #self.employer_panel() 
+                    return          
                 
         except ValueError as e :
             print(f" Error dar vorodiha: {e}")
-            
-        except Exception as   e:
+        
+        except Exception as e:
             print(f" Error gheire montazere: {e}")
-            
-        return       
         
-
-    def update_train(self):
-        id = input("Id train ke mikhay update koni chie? ").strip()
-        check = self.db.read("trains",id)
-
-        if check:
-            print("---------------")
-            print(check)
-
-            changable_attr = input("eshgam chi ro mikhy avaz koni: ").lower().strip()
-            if changable_attr == "id":
-                answer = input("dada chi migi , id avaz nemishe, mikhay edame bedi(Y/N)").lower().strip()
-               
-                if answer == "y":
-                        self.update_train()
-            
-                elif answer == "n":
-                        self.employer_panel()
-            
-                else:
-                    print("eshtebah kardi az aval shro kon!")
-                    self.employer_panel()   
-            #check if user chose change line we show ghe existed line
-            if changable_attr == "line":
-                lines = self.db.read_all_data("lines") 
-
-                #check we have any line or not 
-                if len(lines) < 1:
-                    print("lotfan aval line ra besazid! ")
-                    self.employer_panel()
-
-                a = [_line.name for _line in lines]
-                print(f"existed lines: ",a)
-
-            new_value = input(f"{changable_attr} be chi taghir bedam: ")
-            
-            #checke if user choise line to change and the her choise is not in existed line print message and get the value again
-            if changable_attr == "line" and new_value not in a:
-                flag = True
-                #We will keep the user logged in until they enter the correct value or exit completely.
-                while flag:
-                    print("please choise line in existed line . ")
-                    choise = input("mikhay edame bedi? (Y,N): ").lower()
-                    if choise == 'y':
-                        lines = self.db.read_all_data("lines") 
-                        a = [_line.name for _line in lines]
-                        print(f"existed lines: ",a)
-                        new_value = input(f"{changable_attr} be chi taghir bedam: ")
-                        if new_value in a:
-                            flag = False
-                    elif choise == 'n':
-                        flag = False
-                        self.employer_panel()
-
-            if backButton.back("dost dari ina ezafe she? (Y/N)"):            
-
-                updated_data = self.db.update_data( "trains", id ,changable_attr, new_value)
-                
-                if updated_data:
-                    print("train update shod horraa!")
-                    print(updated_data)
-                    self.employer_panel()
-                
-                else:
-                
-                    answer = input("update ba khata movajeh shod, mikhay edame bedi(Y/N)").lower()
-                
-                    if answer == "y":
-                        self.update_train()
-                
-                    elif answer == "n":
-                        self.employer_panel()
-                    
-                    else:
-                        self.employer_panel()
-                   
-            else:
-                if backButton.back("dost dari dobare bezani? (Y/n) "):
-                    self.update_train()
-                else:
-                    self.employer_panel()  
-
-        else:
-            answer = input("hamchin id nist, mikhay edame bedi(Y/N)").lower().strip()
-               
-            if answer == "y":
-                self.update_train()
-            
-            elif answer == "n":
-                self.employer_panel()
-            
-            else:
-                print("eshtebah kardi az aval shro kon!")
-                self.employer_panel()   
-
-    def delete_train(self):
-        id = input("chiro mikhay hazf kon? ").strip()
-        check = self.db.remove_data("trains",id)
-
-        if check:
-            if backButton.back("motmaenii? (Y/N)"):
-
-                print("heyyyy hazf kardiiiddyaa!!!")
-                self.employer_panel()
-
-            else:
-                if backButton.back("dost dari dobare bezani? (Y/n) "):
-                    self.delete_train()
-                else:
-                    self.employer_panel()      
-        
-        else:
-            print("donbal chi hasti dada! hamchin chizi nist")
-            
-            again = input("dost dari ey bar dighe emtahan koni?(Y/N)").lower().strip()
-
-            if again == "y":
-                self.delete_train()
-            
-            elif again == "n":
-                self.employer_panel()
-            
-            else:
-                print("eshtebah kardi az aval shro kon!")
-                self.employer_panel()
+        return
 
     def show_trains(self):
         trains = self.db.read_all_data("trains")
