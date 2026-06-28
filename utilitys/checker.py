@@ -7,21 +7,22 @@ password_pattern = r'^(?=.*[a-zA-Z])(?=.*\d)(?=.*@)(?=.*&)[a-zA-Z\d@&]{8,}$'
 def check(password="",email="",options="b"):
     check_email = re.fullmatch(email_pattern,email)
     check_password = re.fullmatch(password_pattern,password)
-    if options == "e":
-        if check_email :
-            return True
-        else:
-            return False
-    elif options == "p":
-        if  check_password:
-            return True
-        else:
-            return False
-    else:
-        if check_email and check_password:
-            return True
-        else:
-            return False
+    match options :
+        case "e":
+            if check_email :
+                return True
+            else:
+                return False
+        case "p":
+            if  check_password:
+                return True
+            else:
+                return False
+        case "b":
+            if check_email and check_password:
+                return True
+            else:
+                return False
     
     
 
