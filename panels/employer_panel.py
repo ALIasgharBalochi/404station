@@ -196,14 +196,19 @@ class EmployerPanel:
             
     def delete_line(self):
         Name = input("chiro mikhay hazf kon? ").strip()
-        check = self.db.remove_data("lines",Name)
+        check = self.db.read("lines",Name)
 
         if check:
 
             if backButton.back("dada dari hazfesh mikoni, motmaeni? (Y/N)"):
 
-                print("heyyyy hazf kardiiiddyaa!!!")
-                self.employer_panel()
+                removed = self.db.remove_data("lines",Name)
+                if removed:
+                    print("\nheyyyy hazf kardiiiddyaa!!!")
+                    self.employer_panel()
+                else:
+                    print("\nhasf kardan khat ba khata movajeh shod!")
+                    self.employer_panel()
             else:
                 if backButton.back("dost dari dobare hazf koni? (Y/n) "):
                     self.delete_line()
