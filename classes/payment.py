@@ -15,13 +15,20 @@ class PaymentService:
     
     def _read_amount(self):
         try:
-            amount = int(input("amount: ").strip())
-            if amount <= 0:
-                print("amount not be 0 ")
+            amount_str = input("amount: ").strip()
+            if not amount_str:
+                print("Amount cannot be empty!")
                 return None
+            
+            amount = int(amount_str)
+            
+            if amount <= 0:
+                print("Invalid amount! Please enter a number greater than 0")
+                return None
+            
             return amount
         except ValueError:
-            ("amount not valid")
+            print("Error: Please enter a valid number")
             return None
          
     def _read_new_card(self):
@@ -100,9 +107,12 @@ class PaymentService:
             
     def pay_from_wallet(self,amount,passenger):
         if passenger.wallet < amount:
-            print("your balance is not enough")
+            needed = amount - passenger.wallet
+            print(f"your balance is not enough then you need {needed} more.")
             return False 
         passenger.wallet -= amount
+        print(f"payment successful! new balance: {passenger.wallt}")
+        return True
     
         
     def show_wallet_balance(self, passenger):
