@@ -412,21 +412,32 @@ class EmployerPanel:
                 self.employer_panel()   
 
     def delete_train(self):
+        
+        trains = self.db.read_all_data("trains")
+        if not trains:
+            print("list khaliye baba!!!!!")
+            self.employer_panel()
+        
+        for train in trains:
+            print(train)
+        
         id = input("chiro mikhay hazf kon? ").strip()
-        check = self.db.remove_data("trains",id)
+        check = self.db.read("trains",id)
 
         if check:
             if backButton.back("motmaenii? (Y/N)"):
-
-                print("heyyyy hazf kardiiiddyaa!!!")
-                self.employer_panel()
-
+                remove_data = self.db.remove_data("trains",id)
+                if remove_data :
+                    print("heyyyy hazf kardiiiddyaa!!!")
+                    self.employer_panel()
+                else:
+                    print("\n hazf kardan ba khata movajeh shod")
+                    self.employer_panel()
             else:
                 if backButton.back("dost dari dobare bezani? (Y/n) "):
                     self.delete_train()
                 else:
                     self.employer_panel()      
-        
         else:
             print("donbal chi hasti dada! hamchin chizi nist")
             
