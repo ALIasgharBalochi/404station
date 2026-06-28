@@ -99,8 +99,13 @@ class PassengerPanel:
     def buy_ticket(self,passenger):
         print("\n--- BUY Panel ---")
 
-        remove_file("existed_trains.txt")
-        remove_file("ticket.txt")
+        try :
+
+            remove_file("existed_trains.txt")
+            remove_file("ticket.txt")
+        except Exception as e:
+            print(f"khataa: {e}")
+            return
 
         all_lines = self.db.read_all_data("lines")
         all_trains = self.db.read_all_data("trains")
