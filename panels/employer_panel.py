@@ -183,7 +183,7 @@ class EmployerPanel:
     def delete_line(self):
         CLI.title("\n--- Delete Line ---")
         Name = input("\nchiro mikhay hazf kon? ").strip()
-        check = self.db.remove_data("lines",Name)
+        check = self.db.read("lines",Name)
 
         if check:
 
@@ -267,7 +267,7 @@ class EmployerPanel:
                         return
 
             avarage_speed = float(input("avarage_speed: "))
-            quality = input("quality: ")
+            quality = int(input("quality: "))
             ticket_cost = float(input("ticket_cost: "))
             capacity = int(input("capacity: "))
             

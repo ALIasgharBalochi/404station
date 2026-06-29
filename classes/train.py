@@ -13,6 +13,10 @@ class Train:
             raise ValueError("avarage_Speed cannot be negative!")
         if ticket_cost < 0 :
             raise ValueError("ticket_cost cannot be negative!")
+        if quality < 0 :
+            raise ValueError("quality cannot be negative!")
+        if capacity < 0 :
+            raise ValueError("capacity cannot be negative!")
         if not stop_time.isnumeric():
             raise ValueError("dadashe man stop time bayad yek adad bashad faghat masalan: 5)!")
         if not distance_to_station.isnumeric():
