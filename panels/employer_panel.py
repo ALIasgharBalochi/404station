@@ -1,7 +1,11 @@
 from classes.line import Line
 from classes.train import Train
+<<<<<<< HEAD
 from utilitys import backButton
 from utilitys.cli import CLI   
+=======
+from utilitys import backButton,iscolision   
+>>>>>>> fix-bug3
 
 
 class EmployerPanel:
@@ -231,14 +235,6 @@ class EmployerPanel:
 
     def add_train(self):
 
-        # name = input("name: ").strip()
-        # line = input("line: ").strip()
-        # avarage_speed = input("avarage_speed: ").strip()
-        # quality = input("quality: ").strip()
-        # ticket_cost = input("ticket_cost: ").strip()
-        # capacity = input("capacity: ").strip()
-
-       
         try:
             
             CLI.title("\n--- Adding New Train ---")
@@ -278,10 +274,35 @@ class EmployerPanel:
             quality = input("quality: ")
             ticket_cost = float(input("ticket_cost: "))
             capacity = int(input("capacity: "))
+            
+            stop_time = input("stop in station (5): ")
 
-            if backButton.back("\ndost dari ina ezafe she? (Y/N)"):
+            time_to_move = input("saat harekat ghatar(10:30): ")
+            check_format = time_to_move.split(":")
 
-                result = self.db.create_DI(Train(name,line,avarage_speed,quality,ticket_cost,capacity),"trains")
+            if len(check_format) == 2:
+                if check_format[0].isnumeric() and check_format[1].isnumeric():
+                    pass
+                else:
+                    print("format saat eshtehah ast")
+                    return
+            else:
+                print("format saat eshtehah ast")
+                return
+
+            distance_to_station = input("fasele ta istgah(20): ")
+
+            if backButton.back("dost dari ina ezafe she? (Y/N)"):
+                train = Train(name, line, avarage_speed, quality, ticket_cost, capacity, stop_time,time_to_move,distance_to_station)
+
+                colision = iscolision.isColision(db=self.db,new_train=train)
+                if colision:
+                    print("in ghatar ba in moshakhasat namitavanad roy in khat harekat konad baes barkhord ba ghatar digari mishavad")
+                    return
+                result = self.db.create_DI(
+                    train,
+                    "trains"
+                )
 
                 if result:
                     CLI.success("\ntrain dorst shod hooraa!!")
@@ -394,46 +415,63 @@ class EmployerPanel:
 
 
     def delete_train(self):
-        CLI.title("\n--- Delete Train ---")
+        try:
+            CLI.title("\n--- Delete Train ---")
 
-        trains = self.db.read_all_data("trains")
-        if not trains:
-            CLI.warning("list khaliye baba!!!!!")
-            return
-        
-        for train in trains:
-            CLI.info(str(train))
-        
-        id = input("chiro mikhay hazf kon? ").strip()
-        check = self.db.read("trains",id)
-
-        if check:
-            if backButton.back("motmaenii? (Y/N)"):
-                remove_data = self.db.remove_data("trains",id)
-                if remove_data :
-                    CLI.success("heyyyy hazf kardiiiddyaa!!!")
-                    return
-                else:
-                    CLI.error("error khordi khob")
-                    self.employer_panel()      
-        
-        else:
-            CLI.warning("\ndonbal chi hasti dada! hamchin chizi nist")
-            
-            again = input("\ndost dari ey bar dighe emtahan koni?(Y/N)").lower().strip()
-
-            if again == "y":
+            trains = self.db.read_all_data("trains")
+            if not trains:
+                CLI.warning("list khaliye baba!!!!!")
                 return
             
-            elif again == "n":
-                return
+            for train in trains:
+                CLI.info(str(train))
+            
+            id = input("chiro mikhay hazf kon? ").strip()
+            check = self.db.read("trains",id)
+
+            if check:
+                if backButton.back("motmaenii? (Y/N)"):
+                    remove_data = self.db.remove_data("trains",id)
+                    if remove_data :
+                        CLI.success("heyyyy hazf kardiiiddyaa!!!")
+                        return
+                    else:
+                        CLI.error("error khordi khob")
+                        self.employer_panel()      
             
             else:
-                CLI.error("\neshtebah kardi az aval shro kon!")
-                self.employer_panel()
-                CLI.error("hazf kardan ba khata movajeh shod")
+                CLI.warning("\ndonbal chi hasti dada! hamchin chizi nist")
+                
+                again = input("\ndost dari ey bar dighe emtahan koni?(Y/N)").lower().strip()
 
-                return
+                if again == "y":
+                    return
+                
+                elif again == "n":
+                    return
+                
+                else:
+                    CLI.error("\neshtebah kardi az aval shro kon!")
+                    CLI.error("hazf kardan ba khata movajeh shod")
+                    # print("train dorst shod hooraa!!")
+                    return
+                    # else:
+                    #     print("moshkely pish omad dobare talash kon") 
+
+                # else:
+                #     if backButton.back("dost dari dobare bezani? (Y/n) "):
+                #         self.add_train()
+                #     else:
+                #         return          
+                
+        except ValueError as e :
+            print(f" Error dar vorodiha: {e}")
+        
+        except Exception as e:
+            print(f" Error gheire montazere: {e}")
+        
+        return
+
             
     def show_trains(self):
         CLI.title("\n--- Show Train ---")
