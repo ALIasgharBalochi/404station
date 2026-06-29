@@ -18,13 +18,13 @@ class PaymentService:
         try:
             amount_str = input("amount: ").strip()
             if not amount_str:
-                print("Amount cannot be empty!")
+                print("\nAmount cannot be empty!")
                 return None
             
             amount = int(amount_str)
             
             if amount <= 0:
-                print("Invalid amount! Please enter a number greater than 0")
+                print("\nInvalid amount! Please enter a number greater than 0")
                 return None
             
             return amount
