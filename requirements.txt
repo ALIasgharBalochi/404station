@@ -1,1 +1,2 @@
 colorama==0.4.6
+graphviz==0.21
