@@ -1,11 +1,7 @@
 from classes.line import Line
 from classes.train import Train
-<<<<<<< HEAD
-from utilitys import backButton
 from utilitys.cli import CLI   
-=======
 from utilitys import backButton,iscolision   
->>>>>>> fix-bug3
 
 
 class EmployerPanel:
