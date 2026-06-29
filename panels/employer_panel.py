@@ -10,11 +10,9 @@ class EmployerPanel:
         self.auth = auth
 
     def employer_login_panel(self):
-        
         attempts = 1
-        
         while attempts < 4 :
-            CLI.info(f"\n--- Employer Login (Attempt {attempts}/3) ---")
+            CLI.title(f"\n--- Employer Login (Attempt {attempts}/3) ---")
 
 
             username = input("username: ").strip()
@@ -35,7 +33,7 @@ class EmployerPanel:
                 CLI.error(login["message"])
 
                 attempts += 1
-                print(f"\nEshtebah shod! {4 - attempts}attempts left.")
+                CLI.warning(f"\nEshtebah shod! {4 - attempts}attempts left.")
                     
                 
         CLI.error("\n Access Denied! soookhtiiii heheheheheh")
@@ -78,7 +76,7 @@ class EmployerPanel:
             elif i == "9":
                 return
             else:
-                print("\nDari Eshatebah Mizani Dadash")
+                CLI.error("\nDari Eshatebah Mizani Dadash")
 
 
     def add_line(self):
@@ -107,11 +105,11 @@ class EmployerPanel:
             result = self.db.create_DI(Line(line_name,origin,destination,station,station_count),"lines")
 
             if result:
-                print("\nLine dorst shod hooraa!!")
+                CLI.success("\nLine dorst shod hooraa!!")
                 return
             
             else:
-                print("\nmoshkely pish omad dobare talash kon") 
+                CLI.error("\nmoshkely pish omad dobare talash kon") 
                 return   
         else:
             return
@@ -124,7 +122,7 @@ class EmployerPanel:
 
         if check:
 
-            print(check)
+            CLI.info(str(check))
 
             # changable_attr = input("eshgam chi ro mikhy avaz koni: ").lower().strip()
             # new_value = input(f"{changable_attr} be chi taghir bedam: ").strip()
@@ -161,22 +159,12 @@ class EmployerPanel:
                             stations[-1] = new_value 
                             self.db.update_data("lines",Name,"station",stations)
                     
-                    print("\nkhatet update shod horraa!")
+                    CLI.success("\nkhatet update shod horraa!")
                     print(updated_data)
                     return
             
                 else:
-                
-                    answer = input("\nupdate ba khata movajeh shod, mikhay edame bedi(Y/N)").lower()
-                
-                    if answer == "y":
-                        return
-                
-                    elif answer == "n":
-                        return
-                
-                    else:
-                    
+
                         answer = input("\nupdate ba khata movajeh shod, mikhay edame bedi(Y/N)").lower().strip()
                     
                         if answer == "y":
@@ -191,19 +179,6 @@ class EmployerPanel:
             else:
                 return             
 
-        else:
-            answer = input("\nhamchin khati nist, mikhay edame bedi(Y/N)").lower().strip()
-               
-            if answer == "y":
-                return
-            
-            elif answer == "n":
-                return
-            
-            else:
-                CLI.error("\neshtebah kardi az aval shro kon!")
-                return     
-
             
     def delete_line(self):
         CLI.title("\n--- Delete Line ---")
@@ -217,16 +192,16 @@ class EmployerPanel:
                 
                 removed = self.db.remove_data("lines",Name)
                 if removed:
-                    print("\nheyyyy hazf kardiiiddyaa!!!")
+                    CLI.success("\nheyyyy hazf kardiiiddyaa!!!")
                     return
                 else:
-                    print("\nhasf kardan khat ba khata movajeh shod!")
+                    CLI.error("\nhasf kardan khat ba khata movajeh shod!")
                     return
             else:
                 return      
         
         else:
-            print("\ndonbal chi hasti dada! hamchin chizi nist")
+            CLI.warning("donbal chi hasti dada! hamchin chizi nist")
             
             again = input("\ndost dari ey bar dighe emtahan koni?(Y/N)").lower().strip()
 
@@ -250,8 +225,9 @@ class EmployerPanel:
 
         else:
             for line in lines:
-                print("---------------")
-                print(line)    
+                CLI.info("---------------")
+                CLI.info(str(line))
+    
 
     def add_train(self):
 
@@ -278,7 +254,8 @@ class EmployerPanel:
                 return
 
             a = [_line.name for _line in lines]
-            print(f"existed lines: ",a)
+            CLI.info(f"existed lines: {a}")
+
             line = input("line: ")
 
             if line not in a:
@@ -289,7 +266,7 @@ class EmployerPanel:
                     choise = input("\nmikhay edame bedi? (Y,N): ").lower()
                     if choise == 'y':
                         a = [_line.name for _line in lines]
-                        print(f"existed lines: ",a)
+                        CLI.info(f"existed lines: {a}")
                         line = input("line: ")
                         if line in a:
                             flag = False
@@ -307,7 +284,7 @@ class EmployerPanel:
                 result = self.db.create_DI(Train(name,line,avarage_speed,quality,ticket_cost,capacity),"trains")
 
                 if result:
-                    print("\ntrain dorst shod hooraa!!")
+                    CLI.success("\ntrain dorst shod hooraa!!")
                     return 
                 
                 else:
@@ -336,8 +313,9 @@ class EmployerPanel:
         check = self.db.read("trains",id)
 
         if check:
-            print("---------------")
-            print(check)
+            CLI.info("---------------")
+            CLI.info(str(check))
+
 
             changable_attr = input("\neshgam chi ro mikhy avaz koni: ").lower().strip()
             if changable_attr == "id":
@@ -371,7 +349,7 @@ class EmployerPanel:
                 flag = True
                 #We will keep the user logged in until they enter the correct value or exit completely.
                 while flag:
-                    print("\nplease choise line in existed line . ")
+                    CLI.warning("please choose a line from existed lines.")
                     choise = input("\nmikhay edame bedi? (Y,N): ").lower()
                     if choise == 'y':
                         lines = self.db.read_all_data("lines") 
@@ -389,13 +367,13 @@ class EmployerPanel:
                 updated_data = self.db.update_data( "trains", id ,changable_attr, new_value)
                 
                 if updated_data:
-                    print("\ntrain update shod horraa!")
+                    CLI.success("\ntrain update shod horraa!")
                     print(updated_data)
                     return
                 
                 else:
                 
-                    print("\nupdate ba khata movajeh shod, dobare bezan marddd!!!")
+                    CLI.error("\nupdate ba khata movajeh shod, dobare bezan marddd!!!")
                     return
                    
             else:
@@ -420,11 +398,11 @@ class EmployerPanel:
 
         trains = self.db.read_all_data("trains")
         if not trains:
-            print("list khaliye baba!!!!!")
+            CLI.warning("list khaliye baba!!!!!")
             return
         
         for train in trains:
-            print(train)
+            CLI.info(str(train))
         
         id = input("chiro mikhay hazf kon? ").strip()
         check = self.db.read("trains",id)
@@ -433,9 +411,10 @@ class EmployerPanel:
             if backButton.back("motmaenii? (Y/N)"):
                 remove_data = self.db.remove_data("trains",id)
                 if remove_data :
-                    print("heyyyy hazf kardiiiddyaa!!!")
+                    CLI.success("heyyyy hazf kardiiiddyaa!!!")
                     return
                 else:
+                    CLI.error("error khordi khob")
                     self.employer_panel()      
         
         else:
@@ -452,7 +431,8 @@ class EmployerPanel:
             else:
                 CLI.error("\neshtebah kardi az aval shro kon!")
                 self.employer_panel()
-                print("\n hazf kardan ba khata movajeh shod")
+                CLI.error("hazf kardan ba khata movajeh shod")
+
                 return
             
     def show_trains(self):
@@ -464,5 +444,6 @@ class EmployerPanel:
 
         else:
             for train in trains:
-                print("---------------")
-                print(train)  
+                CLI.info("---------------")
+                CLI.info(str(train))
+

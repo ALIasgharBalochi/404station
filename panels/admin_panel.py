@@ -16,7 +16,8 @@ class AdminPanel:
             
 
             username = input("username: ").strip()
-            #password = input("password: ").strip()
+            if username.lower() == 'exit':
+                return
 
             password = input("password: ").strip()
             if password.lower() == 'exit':
@@ -24,14 +25,13 @@ class AdminPanel:
 
             login = self.auth.login(username, password, "admin")
             if login["status"]:
-                print("")
-                print(login["message"])
+                CLI.success(login["message"])
                 self.admin_panel()
                 return
             else:
-                print("")
-                print(login["message"])
+                CLI.error(login["message"])
                 attempts += 1
+        CLI.error("Too many failed attempts. Returning to main menu.")
 
     def admin_panel(self):
         while True:
@@ -54,7 +54,7 @@ class AdminPanel:
                 # Exit the current panel and return to the previous caller, 
                 # avoiding unnecessary recursion or stack overflow.
             else:
-                print("\nDari Eshatebah Mizani Dadash")
+                CLI.error("\nDari Eshatebah Mizani Dadash")
 
     def add_employer(self):
         CLI.title("\n--- Add employer ---")
@@ -85,12 +85,10 @@ class AdminPanel:
             # self.auth.rigester(employer)
             # self.db.create_DI(employer, "employers")
             if register["status"]:
-                print("")
-                print(register["message"])
+                CLI.success(register["message"])
                 return
             else:
-                print("")
-                print(register["message"])
+                CLI.error(register["message"])
                 return
             # print(f"Employer {username} with {password} is created ")
 
@@ -103,24 +101,29 @@ class AdminPanel:
         username = input("Enter employer username: ").strip()
 
         employer = self.db.read("employers", username)
-        
-        #check red method if return use remove data method to delete
-        if employer:
-            if backButton.back("\nba hazfe karmad ok hasty? (Y/N) "):
 
-                self.db.remove_data("employers", username)
-                print("\nEmployer is removed")
+        if employer:
+            if backButton.back("\nba hazfe karmand ok hasty? (Y/N) "):
+
+                removed = self.db.remove_data("employers", username)
+
+                if removed:
+                    CLI.success("Employer removed successfully")
+                else:
+                    CLI.error("Error while removing employer")
 
             else:
-                return     
+                CLI.warning("Operation cancelled")
+                return
         else:
-            print("\nusername not found")
+            CLI.error("Username not found")
+
     
     def show_employer(self):
         CLI.title("\n--- Current Employer ---")
         employers = self.db.read_all_data("employers")
         if len(employers) == 0:
-            print("\nwe don`t have employer yet")
+            CLI.error("\nwe don`t have employer yet")
             return
         
         for employer in employers:
