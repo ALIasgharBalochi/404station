@@ -25,13 +25,15 @@ class AdminPanel:
 
             login = self.auth.login(username, password, "admin")
             if login["status"]:
+                print(' ')
                 CLI.success(login["message"])
                 self.admin_panel()
                 return
             else:
+                print(" ")
                 CLI.error(login["message"])
                 attempts += 1
-        CLI.error("Too many failed attempts. Returning to main menu.")
+        CLI.error("\nToo many failed attempts. Returning to main menu.")
 
     def admin_panel(self):
         while True:
