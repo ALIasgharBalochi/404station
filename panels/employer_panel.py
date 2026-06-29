@@ -1,6 +1,6 @@
 from classes.line import Line
 from classes.train import Train
-from utilitys import backButton    
+from utilitys import backButton,iscolision   
 
 
 class EmployerPanel:
@@ -278,12 +278,32 @@ class EmployerPanel:
             ticket_cost = float(input("ticket_cost: "))
             capacity = int(input("capacity: "))
             
-            stop_time = input("stop in station (5 min): ")
+            stop_time = input("stop in station (5): ")
+
+            time_to_move = input("saat harekat ghatar(10:30): ")
+            check_format = time_to_move.split(":")
+
+            if len(check_format) == 2:
+                if check_format[0].isnumeric() and check_format[1].isnumeric():
+                    pass
+                else:
+                    print("format saat eshtehah ast")
+                    return
+            else:
+                print("format saat eshtehah ast")
+                return
+
+            distance_to_station = input("fasele ta istgah(20): ")
 
             if backButton.back("dost dari ina ezafe she? (Y/N)"):
+                train = Train(name, line, avarage_speed, quality, ticket_cost, capacity, stop_time,time_to_move,distance_to_station)
 
+                colision = iscolision.isColision(db=self.db,new_train=train)
+                if colision:
+                    print("in ghatar ba in moshakhasat namitavanad roy in khat harekat konad baes barkhord ba ghatar digari mishavad")
+                    return
                 result = self.db.create_DI(
-                    Train(name, line, avarage_speed, quality, ticket_cost, capacity, stop_time),
+                    train,
                     "trains"
                 )
 
