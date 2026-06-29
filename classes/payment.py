@@ -9,7 +9,7 @@ class PaymentService:
     def show_my_cards(self, passenger):
         CLI.title("\n--- My Cards ---")
         if not passenger.cards:
-            print("No saved cards yet")
+            CLI.warning("No saved cards yet")
             return
         for index, saved_card in enumerate(passenger.cards, start=1):
             print(f"{index}. {saved_card}")
@@ -18,18 +18,18 @@ class PaymentService:
         try:
             amount_str = input("amount: ").strip()
             if not amount_str:
-                print("\nAmount cannot be empty!")
+                CLI.warning("\nAmount cannot be empty!")
                 return None
             
             amount = int(amount_str)
             
             if amount <= 0:
-                print("\nInvalid amount! Please enter a number greater than 0")
+                CLI.error("\nInvalid amount! Please enter a number greater than 0")
                 return None
             
             return amount
         except ValueError:
-            print("Error: Please enter a valid number")
+            CLI.error("Error: Please enter a valid number")
             return None
          
     def _read_new_card(self):
@@ -43,14 +43,14 @@ class PaymentService:
             
             return Card(card_number, exp_month, exp_year, password, cvv2)
         except ValueError:
-            print("invalid card")
+            CLI.error("invalid card")
             return None
         
         
     def _get_card_for_payment(self, passenger):
         if passenger.cards:
-            print("\n1. use saved card")
-            print("2. add new card")
+            CLI.info("\n1. use saved card")
+            CLI.info("2. add new card")
             choice = input("\nchoose: ").strip()
             
             if choice == "1":
@@ -58,13 +58,13 @@ class PaymentService:
             if choice == "2":
                 return self._read_new_card(), True
             
-            print("invalid choice")
+            CLI.error("invalid choice")
             return None, False
         return self._read_new_card(), True
         
     def _choose_saved_Card(self, passenger):
         if not passenger.cards:
-            print("you dont have any card")
+            CLI.warning("you dont have any card")
             return None
         print(" ")
         self.show_my_cards(passenger)
@@ -76,11 +76,11 @@ class PaymentService:
                 return passenger.cards[choice -1]
         except ValueError:
             pass
-        print("invalid card choice")
+        CLI.error("invalid card choice")
         return None
     
     def charge_wallet(self, passenger):
-        print("\nCharge Walllet")
+        CLI.title("\n--- Charge Walllet ---")
         amount = self._read_amount()
         if amount is None:
             return False
@@ -101,25 +101,25 @@ class PaymentService:
             passenger.wallet += amount
             if should_save:
                 passenger.cards.append(selected_card)
-            print("wallet charged succesfully")
+            CLI.success("wallet charged succesfully")
             print("payment ID:", payment_id)
             return True
         except ValueError as error:
-            print("payment failed:", error)
+            CLI.error("payment failed:", error)
             return False
             
     def pay_from_wallet(self,amount,passenger):
         if passenger.wallet < amount:
             needed = amount - passenger.wallet
-            print(f"your balance is not enough then you need {needed} more.")
+            CLI.warning(f"your balance is not enough then you need {needed} more.")
             return False 
         passenger.wallet -= amount
-        print(f"payment successful! new balance: {passenger.wallet}")
+        CLI.success(f"payment successful! new balance: {passenger.wallet}")
         return True
     
         
     def show_wallet_balance(self, passenger):
-        print("\nWallet Balance")
+        CLI.title("\n--- Wallet Balance ---")
         print(f"your walllet amount is {passenger.wallet}")
     
   

@@ -254,7 +254,7 @@ class EmployerPanel:
                 flag = True
                 #We will keep the user logged in until they enter the correct value or exit completely.
                 while flag:
-                    CLI.title("\nthe line is not exist please chose from existed line")
+                    CLI.warning("\nthe line is not exist please chose from existed line")
                     choise = input("\nmikhay edame bedi? (Y,N): ").lower()
                     if choise == 'y':
                         a = [_line.name for _line in lines]
@@ -280,10 +280,10 @@ class EmployerPanel:
                 if check_format[0].isnumeric() and check_format[1].isnumeric():
                     pass
                 else:
-                    print("format saat eshtehah ast")
+                    CLI.error("format saat eshtehah ast")
                     return
             else:
-                print("format saat eshtehah ast")
+                CLI.error("format saat eshtehah ast")
                 return
 
             distance_to_station = input("fasele ta istgah(20): ")
@@ -293,7 +293,7 @@ class EmployerPanel:
 
                 colision = iscolision.isColision(db=self.db,new_train=train)
                 if colision:
-                    print("in ghatar ba in moshakhasat namitavanad roy in khat harekat konad baes barkhord ba ghatar digari mishavad")
+                    CLI.warning("in ghatar ba in moshakhasat namitavanad roy in khat harekat konad baes barkhord ba ghatar digari mishavad")
                     return
                 result = self.db.create_DI(
                     train,
@@ -357,7 +357,7 @@ class EmployerPanel:
                     return
 
                 a = [_line.name for _line in lines]
-                print(f"\nexisted lines: ",a)
+                CLI.info(f"\nexisted lines: ",a)
 
             new_value = input(f"{changable_attr} be chi taghir bedam: ")
             
@@ -371,7 +371,7 @@ class EmployerPanel:
                     if choise == 'y':
                         lines = self.db.read_all_data("lines") 
                         a = [_line.name for _line in lines]
-                        print(f"\nexisted lines: ",a)
+                        CLI.info(f"\nexisted lines: ",a)
                         new_value = input(f"\n{changable_attr} be chi taghir bedam: ")
                         if new_value in a:
                             flag = False
@@ -461,10 +461,10 @@ class EmployerPanel:
                 #         return          
                 
         except ValueError as e :
-            print(f" Error dar vorodiha: {e}")
+            CLI.error(f" Error dar vorodiha: {e}")
         
         except Exception as e:
-            print(f" Error gheire montazere: {e}")
+            CLI.error(f" Error gheire montazere: {e}")
         
         return
 

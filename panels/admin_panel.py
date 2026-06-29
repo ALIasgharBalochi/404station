@@ -92,9 +92,6 @@ class AdminPanel:
             else:
                 CLI.error(register["message"])
                 return
-            # print(f"Employer {username} with {password} is created ")
-
-                print(f"Employer {username} with {password} is created ")
         else:
             return   
         

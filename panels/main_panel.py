@@ -21,11 +21,11 @@ class MainPanel:
                 self.passenger_panel.passenger_panel()
 
             elif choice == "4":
-                print("\nShab O Roozegar Khosh")
+                CLI.warning("\nShab O Roozegar Khosh")
                 break
 
             else:
-                print("\nDari Eshtebah Mizani Dadash")
+                CLI.error("\nDari Eshtebah Mizani Dadash")
 
     def show_menu(self):
         CLI.title("\n--- Be 404 Station Khosh Omadi ---")
