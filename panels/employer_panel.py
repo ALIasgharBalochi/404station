@@ -2,6 +2,7 @@ from classes.line import Line
 from classes.train import Train
 from utilitys.cli import CLI   
 from utilitys import backButton,iscolision   
+from utilitys.check_update_train import check_update_Train
 
 
 class EmployerPanel:
@@ -380,19 +381,28 @@ class EmployerPanel:
                         return
 
             if backButton.back("\ndost dari ina ezafe she? (Y/N)"):            
+                try:
 
-                updated_data = self.db.update_data( "trains", id ,changable_attr, new_value)
-                
-                if updated_data:
-                    CLI.success("\ntrain update shod horraa!")
-                    print(updated_data)
+                    if check_update_Train(changable_attr,new_value):
+                        updated_data = self.db.update_data( "trains", id ,changable_attr, new_value)
+                        
+                        if updated_data:
+                            CLI.success("\ntrain update shod horraa!")
+                            print(updated_data)
+                            return
+                        
+                        else:
+                        
+                            CLI.error("\nupdate ba khata movajeh shod, dobare bezan marddd!!!")
+                            return
+                    else:
+                        return 
+                except ValueError:
+                    CLI.error("faghat addad vared konid")
                     return
-                
-                else:
-                
-                    CLI.error("\nupdate ba khata movajeh shod, dobare bezan marddd!!!")
-                    return
-                   
+                except Exception as e :
+                    CLI.error(f"khataaa hengam update: {e}")
+                    return 
             else:
                 return 
 

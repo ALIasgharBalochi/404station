@@ -1,0 +1,1 @@
+destination: b,train_name: asghar,ticket_cost: 10.0,train_capacity: 9

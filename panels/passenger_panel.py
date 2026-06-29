@@ -119,6 +119,7 @@ class PassengerPanel:
                 for train in all_trains:
                     if line.name == train.line:
                         is_printed = print_file.save_to_file("existed_trains.txt",destination=line.destination,train_name=train.name,ticket_cost=train.ticket_cost,train_capacity=train.capacity)
+
             if is_printed:
                 CLI.success("\nThe information of all existed trains in the existed_trains.txt file was saved.")
         except Exception as e:
@@ -180,7 +181,7 @@ class PassengerPanel:
             
             
 
-            is_printed = print_file.save_to_file("ticket.txt",username=ticket.username,train_name=ticket.train_name,origin=ticket.origin,destination=ticket.destination,ticket_cost=ticket.ticket_cost,count_ticket=ticket.amount,data=ticket.time)
+            is_printed = print_file.save_to_file("ticket.txt",username=ticket.username,train_name=ticket.train_name,origin=ticket.origin,destination=ticket.destination,ticket_cost=ticket.ticket_cost,count_ticket=ticket.amount,date=ticket.time)
             if is_printed:
                 CLI.success("\nyour ticket has successfuly been created")
                 self.passenger_dashboard(passenger)
@@ -189,7 +190,7 @@ class PassengerPanel:
                 self.passenger_dashboard(passenger)
 
         except Exception as e:
-            CLI.error(f"\nkhataaa: {e}")
+            CLI.error(f"\nkhattaa: {e}")
             return
         
     def wallet_panel(self,passenger):
@@ -252,7 +253,7 @@ class PassengerPanel:
                     if updated_data:
                         CLI.success("\ninformation updated!")
                         print(updated_data)
-                        return
+                        self.passenger_dashboard(passenger)
                     else:
                     
                         answer = CLI.warning("\nuser hamchin chizi nadare, mikhay edame bedi(Y/N)").lower()
