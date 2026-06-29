@@ -9,9 +9,9 @@ class Card:
 
 
     def __str__(self):
-        return (f"______card-info________"
-                f"card = {self.card}"
-                f"exp_month = {self.exp_month}"
-                f"exp_year = {self.exp_year}"
-                f"cvv2 = {self.cvv2}"
+        return (f"--- card-info ---\n"
+                f"card = {self.card}\n"
+                f"exp_month = {self.exp_month}\n"
+                f"exp_year = {self.exp_year}\n"
+                f"cvv2 = {self.cvv2}\n"
                 ) 

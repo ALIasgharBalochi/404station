@@ -49,9 +49,9 @@ class PaymentService:
         
     def _get_card_for_payment(self, passenger):
         if passenger.cards:
-            print("1. use saved card")
+            print("\n1. use saved card")
             print("2. add new card")
-            choice = input("choose: ").strip()
+            choice = input("\nchoose: ").strip()
             
             if choice == "1":
                 return self._choose_saved_Card(passenger), False
@@ -66,9 +66,11 @@ class PaymentService:
         if not passenger.cards:
             print("you dont have any card")
             return None
+        print(" ")
         self.show_my_cards(passenger)
         
         try:
+            print(" ")
             choice = int(input("choose card number: ").strip())
             if 1 <= choice <= len(passenger.cards):
                 return passenger.cards[choice -1]
