@@ -182,7 +182,7 @@ class PassengerPanel:
 
             is_printed = print_file.save_to_file("ticket.txt",username=ticket.username,train_name=ticket.train_name,origin=ticket.origin,destination=ticket.destination,ticket_cost=ticket.ticket_cost,count_ticket=ticket.amount,data=ticket.time)
             if is_printed:
-                CLI.success("\nyour ticket has successfuley been created")
+                CLI.success("\nyour ticket has successfuly been created")
                 self.passenger_dashboard(passenger)
             else:
                 CLI.error("\nWe had a problem when creating the ticket.")

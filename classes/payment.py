@@ -112,7 +112,7 @@ class PaymentService:
             print(f"your balance is not enough then you need {needed} more.")
             return False 
         passenger.wallet -= amount
-        print(f"payment successful! new balance: {passenger.wallt}")
+        print(f"payment successful! new balance: {passenger.wallet}")
         return True
     
         
