@@ -87,7 +87,7 @@ class AdminPanel:
             if register["status"]:
                 print("")
                 print(register["message"])
-                self.admin_panel()
+                return
             else:
                 print("")
                 print(register["message"])
@@ -96,10 +96,7 @@ class AdminPanel:
 
                 print(f"Employer {username} with {password} is created ")
         else:
-            if backButton.back("\ndost dari dobare bezani? (Y/n) "):
-                self.add_employer()
-            else:
-                self.admin_panel()    
+            return   
         
     def remove_employer(self):
         CLI.title("\n--- Remove Employer ---")
@@ -115,10 +112,7 @@ class AdminPanel:
                 print("\nEmployer is removed")
 
             else:
-                if backButton.back("\ndost dari dobare hazf koni? (Y/n) "):
-                    self.remove_employer()
-                else:
-                    self.admin_panel()     
+                return     
         else:
             print("\nusername not found")
     
@@ -131,6 +125,6 @@ class AdminPanel:
         
         for employer in employers:
             print("-------------------")
-            print("username: ", employer.username)
-            print("name: ", employer.first_name, employer.last_name)
-            print("username: ", employer.email)
+            print("Username: ", employer.username)
+            print("Full name: ", employer.first_name, employer.last_name)
+            print("Email: ", employer.email)

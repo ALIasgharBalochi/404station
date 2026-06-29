@@ -77,14 +77,14 @@ class Authentication:
             user = self.database.read("employers",username)
             if user:
                 if user.password == password:
-                    return {"status": True,"message": "login successfuley","obj": user}
+                    return {"status": True,"message": "login successfuly","obj": user}
             return {'status': False,'message': "username or password is wrong"}
 
         if role == "passenger":
             user = self.database.read("passengers",username)
             if user:
                 if user.password == password:
-                    return {"status": True,"message": "login successfuley","obj": user}
+                    return {"status": True,"message": "login successfuly","obj": user}
             return {'status': False,'message': "username or password is wrong"}
         
         return {"status": False, "message": "invalid role"}

@@ -5,7 +5,7 @@ import uuid
 
 
 class Ticket:
-    def __init__(self, username, train_name,origin, destination, ticket_cost, amount,):
+    def __init__(self, username, train_name,origin, destination, ticket_cost, amount):
         self.id = self.generate_id()
         self.username = self.validate_string(username, "Username")
         self.train_name = self.validate_string(train_name, "Train name")

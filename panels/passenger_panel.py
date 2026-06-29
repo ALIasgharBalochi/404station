@@ -3,8 +3,12 @@ from classes.payment import PaymentService
 from utilitys import backButton, print_file
 from classes.ticket import Ticket
 from utilitys.checker import check
+<<<<<<< HEAD
 from utilitys.cli import CLI
 
+=======
+from utilitys.remove_file import remove_file
+>>>>>>> main
 class PassengerPanel:
     def __init__(self, database, authentication):
         self.db = database
@@ -24,7 +28,7 @@ class PassengerPanel:
             elif i == "2":
                 self.passenger_login_panel()
             elif i == "3":
-                self.passenger_dashboard()
+                return
             else:
                 print("\nDadash dari eshtebah mizani")
                          
@@ -42,10 +46,13 @@ class PassengerPanel:
             
             passenger_auth = self.auth.login(username, password, "passenger")
             if passenger_auth["status"]:
+                print('')
                 print(passenger_auth["message"])
                 self.coocke["username"] = username
                 self.passenger_dashboard(passenger_auth["obj"])
+                return
             else:
+                print("")
                 print(passenger_auth["message"])
                 attempts += 1
                         
@@ -66,7 +73,7 @@ class PassengerPanel:
             
             if passenger_auth["status"]:
                 CLI.success(passenger_auth["message"])
-                self.passenger_panel()
+                return
             else:
                 CLI.error(passenger_auth["message"])
                 return
@@ -88,19 +95,27 @@ class PassengerPanel:
             elif i == "3":
                 self.wallet_panel(passenger)                
             elif i == "4":
-                self.passenger_dashboard(passenger)
+                return
             else:
                 CLI.error("\nDadash dari eshtebah mizani")
 
     def buy_ticket(self,passenger):
         CLI.title("\n--- BUY Panel ---")
 
+        try :
+
+            remove_file("existed_trains.txt")
+            remove_file("ticket.txt")
+        except Exception as e:
+            print(f"khataa: {e}")
+            return
+
         all_lines = self.db.read_all_data("lines")
         all_trains = self.db.read_all_data("trains")
         
         if len(all_lines) < 1:
             print("\nhanoz beliti baray frosh nist hahahahhah :)")
-            self.passenger_dashboard(passenger)
+            return
 
         try:
             for line in all_lines:
@@ -111,7 +126,7 @@ class PassengerPanel:
                 print("\nThe information of all existed trains in the existed_trains.txt file was saved.")
         except Exception as e:
             print(f"\nkhataaaa!: {e}")
-            self.passenger_dashboard(passenger)
+            return
 
         #check the train name is exist in existed train 
         all_train_names = [train.name for train in all_trains]
@@ -125,13 +140,13 @@ class PassengerPanel:
                         flag = False
                 else:
                     flag = False
-                    self.passenger_dashboard(passenger)
+                    return
 
         #find train name by the input of the user
         train = [train for train in all_trains if train.name == train_name]
         if int(train[0].capacity) < 1:
             print(f"\nghatar {train[0].name} zarfiyati nadarad")
-            self.passenger_dashboard(passenger)
+            return
 
         line = self.db.read("lines",train[0].line)
 
@@ -147,7 +162,7 @@ class PassengerPanel:
                             flag = False
                     else:
                         flag = False
-                        self.passenger_dashboard(passenger)
+                        return
                 
             self.db.update_data("trains",train[0].id,"capacity",int(train[0].capacity)-count_ticket)
             try:
@@ -159,12 +174,12 @@ class PassengerPanel:
 
                 #if payment is failed we return user to the passenger dashboard
                 if purchase == False:
-                    self.passenger_dashboard(passenger)
+                    return
 
                 ticket = Ticket(username=self.coocke["username"],train_name=train[0].name,origin=line.origin,destination=line.destination,ticket_cost=train[0].ticket_cost,amount=count_ticket)
             except Exception as e:
                 print(f"\nkhataaa: {e}")
-                self.passenger_dashboard(passenger)
+                return
             
             
 
@@ -178,7 +193,7 @@ class PassengerPanel:
 
         except Exception as e:
             print(f"\nkhataaa: {e}")
-            self.passenger_dashboard(passenger)
+            return
         
     def wallet_panel(self,passenger):
         while True:
@@ -240,6 +255,7 @@ class PassengerPanel:
                     if updated_data:
                         print("\ninformation updated!")
                         print(updated_data)
+                        return
                     else:
                     
                         answer = CLI.warning("\nuser hamchin chizi nadare, mikhay edame bedi(Y/N)").lower()
@@ -260,12 +276,9 @@ class PassengerPanel:
                                 self.passenger_dashboard(passenger)   
                 except Exception as e:
                     print(f"\nkhataaaa: {e}")
-                    self.passenger_dashboard(passenger)   
+                    return  
             else:
-                if backButton.back("\ndost dari dobare bezani? (Y/n) "):
-                    self.update_profile(passenger)
-                else:
-                    self.passenger_dashboard(passenger)              
+                return             
         else:
             answer = input("\nusername is unchangable,mikhay edame bedi? (Y/N)").lower().strip()
             if answer == "y":
