@@ -14,13 +14,6 @@ class Train:
         if ticket_cost < 0 :
             raise ValueError("ticket_cost cannot be negative!")
         
-        if not isinstance(stop_time, dict):
-            raise ValueError("stop_time must be a dictionary!")
-
-        for station, minutes in stop_time.items():
-            if minutes < 0:
-                raise ValueError(f"stop time for {station} cannot be negative!")
-        
         self.id = get_id()
         self.name = name
         self.line = line
@@ -31,13 +24,6 @@ class Train:
         self.stop_time = stop_time
     def __str__(self):
         
-
-        stop_text = "\n".join(
-            f"{station}: {minutes} minutes"
-            for station, minutes in self.stop_time.items()
-        )
-
-        
         return (f"--- Train Info ---\n"
                 f"ID: {self.id}\n"
                 f"Name: {self.name}\n"
@@ -46,4 +32,4 @@ class Train:
                 f"Quality: {self.quality}\n"
                 f"Ticket Cost: ${self.ticket_cost}\n"
                 f"Capacity: {self.capacity}\n"
-                f"Stop Times:\n{stop_text}\n")
+                f"Stop Times in station: {self.stop_time}\n")
