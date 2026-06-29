@@ -234,7 +234,7 @@ class PassengerPanel:
                 
                 if not valid_email:
                     CLI.error("\nyour email address is not valid")
-                    self.update_profile(passenger)
+                    return
 
             if changable_attr == "password":
 
@@ -242,7 +242,7 @@ class PassengerPanel:
 
                 if not valid_password:
                     CLI.error("\nyour password is not valid")
-                    self.update_profile(passenger)    
+                    return   
 
 
 
@@ -253,40 +253,20 @@ class PassengerPanel:
                     if updated_data:
                         CLI.success("\ninformation updated!")
                         print(updated_data)
-                        self.passenger_dashboard(passenger)
+                        return
                     else:
                     
-                        answer = CLI.warning("\nuser hamchin chizi nadare, mikhay edame bedi(Y/N)").lower()
-                    
-                        if answer == "y":
-                            self.update_profile(passenger)
-                        elif answer == "n":
-                            self.passenger_dashboard(passenger)
-                        else:
-                            answer = CLI.warning("\nupdate ba khata movajeh shod, mikhay edame bedi(Y/N)").lower().strip()
-                        
-                            if answer == "y":
-                                self.update_profile(passenger)
-                            elif answer == "n":
-                                self.passenger_dashboard(passenger)
-                            else:
-                                CLI.error("\neshtebah kardi az aval shro kon!")
-                                self.passenger_dashboard(passenger)   
+                        CLI.warning("\nuser hamchin chizi nadare, az aval shoro kon")
+                        return
+                          
                 except Exception as e:
                     CLI.error(f"\nkhataaaa: {e}")
                     return  
             else:
                 return             
         else:
-            answer = input("\nusername is unchangable,mikhay edame bedi? (Y/N)").lower().strip()
-            if answer == "y":
-                self.update_profile(passenger)
-            
-            elif answer == "n":
-                self.passenger_dashboard(passenger)
-            else:
-                CLI.error("\neshtebah kardi az aval shro kon!")
-                self.passenger_dashboard(passenger)     
+            print("\nusername is unchangable")
+            return     
 
 
 
