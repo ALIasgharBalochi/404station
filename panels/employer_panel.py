@@ -278,27 +278,7 @@ class EmployerPanel:
             ticket_cost = float(input("ticket_cost: "))
             capacity = int(input("capacity: "))
             
-            
-            # پیدا کردن line انتخاب شده
-            line_obj = None
-
-            for _line in lines:
-                if _line.name == line:
-                    line_obj = _line
-                    break
-
-            if line_obj is None:
-                print("Line not found.")
-                return
-
-            stations = line_obj.station
-            stop_time = {}
-
-            print("\nEnter stop time for each station:")
-
-            for st in stations:
-                minutes = int(input(f"{st.strip()} (minutes): "))
-                stop_time[st.strip()] = minutes
+            stop_time = input("stop in station (5 min): ")
 
             if backButton.back("dost dari ina ezafe she? (Y/N)"):
 
